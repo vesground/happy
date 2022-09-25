@@ -13,3 +13,11 @@ model User {
   name  String?
 }
 
+model Emotion {
+  id                Int       @id @default(autoincrement())
+  name              String    @unique
+  type              String
+  primaryEmotionId  Int?
+  primaryEmotion    Emotion?  @relation("PrimaryEmotion", fields: [primaryEmotionId], references: [id])
+  secondaryEmotions Emotion[] @relation("PrimaryEmotion")
+}
