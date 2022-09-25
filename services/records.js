@@ -1,7 +1,14 @@
 import prisma from 'prisma/client';
 
 export async function list({ userId }) {
-  const records = await prisma.record.findMany({ where: { userId: { equals: userId } } });
+  const records = await prisma.record.findMany({
+    where: {
+      userId: { equals: Number(userId) },
+    },
+    include: {
+      emotion: true,
+    },
+  });
 
   return records;
 }
