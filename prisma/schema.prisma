@@ -8,9 +8,10 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  records Record[] @relation("UserRecord")
 }
 
 model Emotion {
@@ -20,4 +21,13 @@ model Emotion {
   primaryEmotionId  Int?
   primaryEmotion    Emotion?  @relation("PrimaryEmotion", fields: [primaryEmotionId], references: [id])
   secondaryEmotions Emotion[] @relation("PrimaryEmotion")
+  records           Record[]  @relation("EmotionInRecord")
+}
+
+model Record {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation("UserRecord", fields: [userId], references: [id])
+  emotionId Int
+  emotion   Emotion @relation("EmotionInRecord", fields: [emotionId], references: [id])
 }
