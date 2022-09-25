@@ -7,7 +7,7 @@ import styles from '../styles/Home.module.css';
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Dashboard() {
-  const { data, error } = useSWR(() => `http://localhost:3000/api/records?userId=1`, fetcher);
+  const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=1`, fetcher);
   if (!data) return 'loading...';
 
   return (

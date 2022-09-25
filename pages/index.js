@@ -11,7 +11,7 @@ export default function Home() {
   const [primaryEmotion, setPrimaryEmotion] = useState(null);
   const [query, setQuery] = useState('type=primary');
 
-  const { data, error } = useSWR(() => `http://localhost:3000/api/emotions?${query}`, fetcher);
+  const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions?${query}`, fetcher);
 
   const handleClick = (type, emotionId) => async () => {
     if (!primaryEmotion) {
@@ -22,7 +22,7 @@ export default function Home() {
         userId: 1,
         emotionId,
       };
-      await fetch(`http://localhost:3000/api/records`, {
+      await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/records`, {
         method: 'POST',
         body: JSON.stringify(data),
       });
