@@ -1,7 +1,9 @@
 import prisma from 'prisma/client';
+import { groupBy as _groupBy } from 'lodash';
+import dayjs from 'dayjs';
 
-export async function list({ userId }) {
-  const records = await prisma.record.findMany({
+export async function list({ userId }, { groupBy }) {
+  let records = await prisma.record.findMany({
     where: {
       userId: { equals: Number(userId) },
     },
@@ -9,6 +11,10 @@ export async function list({ userId }) {
       emotion: true,
     },
   });
+
+  if (groupBy) {
+    records = _groupBy(records, (record) => dayjs(record.createdAt).startOf('day'));
+  }
 
   return records;
 }

@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      response = await list({ userId: query.userId });
+      response = await list({ userId: query.userId }, { groupBy: !!query.groupBy });
       break;
     case 'POST':
       const body = JSON.parse(stringifiedBody);
