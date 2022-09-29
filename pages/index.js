@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import Link from 'next/link';
 
 import styles from '../styles/Home.module.css';
+import Layout from 'components/Layout';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -34,23 +35,12 @@ export default function Home() {
   if (!data) return 'loading...';
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Emotional</title>
-        <meta name="description" content="Learn your emotions" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Link href="/">home</Link>
-      <Link href="/dashboard">dashboard</Link>
-
-      <main className={styles.main}>
-        {data?.map((emotion) => (
-          <button onClick={handleClick(emotion.type, emotion.id)} className={styles.emotion} key={emotion.id}>
-            {emotion.name}
-          </button>
-        ))}
-      </main>
-    </div>
+    <Layout>
+      {data?.map((emotion) => (
+        <button onClick={handleClick(emotion.type, emotion.id)} className={styles.emotion} key={emotion.id}>
+          {emotion.name}
+        </button>
+      ))}
+    </Layout>
   );
 }
