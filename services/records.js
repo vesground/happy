@@ -10,6 +10,11 @@ export async function list({ userId }, { groupBy }) {
     include: {
       emotion: true,
     },
+    orderBy: [
+      {
+        createdAt: 'desc',
+      },
+    ],
   });
 
   if (groupBy) {
