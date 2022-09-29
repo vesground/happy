@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 
-import styles from 'styles/Home.module.css';
+import styles from 'styles/Home.module.scss';
 import Layout from 'components/Layout';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -40,10 +40,8 @@ export default function Home() {
     setQuery(`type=primary`);
   }
 
-  if (!data) return 'loading...';
-
   return (
-    <Layout>
+    <Layout loading={!data}>
       {data?.map((emotion) => {
         return (
           <div className={styles.emotion} key={emotion.id}>

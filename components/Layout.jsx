@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import cn from 'classnames';
 
-import styles from 'styles/Layout.module.css';
+import Loader from 'components/Loader';
 
-export default function Layout({ children }) {
+import styles from 'styles/Layout.module.scss';
+
+export default function Layout({ children, loading }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -12,14 +15,18 @@ export default function Layout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.header}>
+      <div className={cn(styles.header, loading && styles.hide)}>
         <Link href="/">
           <span style={{ marginRight: '8px' }}>home</span>
         </Link>
         <Link href="/dashboard">dashboard</Link>
       </div>
 
-      <main className={styles.main}>{children}</main>
+      {loading ? (
+        <Loader className={styles.loader} />
+      ) : (
+        <main className={cn(styles.main, loading && styles.hide)}>{children}</main>
+      )}
 
       <p className={styles.desktop}>Sorry, but we don&apos;t support desktop version right now. Keep following us!</p>
     </div>
