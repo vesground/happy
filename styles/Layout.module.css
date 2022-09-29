@@ -12,10 +12,6 @@
   align-items: center;
 }
 
-.emotion {
-  margin-bottom: 0.5rem;
-}
-
 .desktop {
   display: none;
 }
@@ -32,18 +28,5 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .card,
-  .footer {
-    border-color: #222;
-  }
-  .code {
-    background: #111;
-  }
-  .logo img {
-    filter: invert(1);
   }
 }
