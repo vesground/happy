@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       break;
     case 'POST':
       const body = JSON.parse(stringifiedBody);
-      response = await create({ userId: body.userId, emotionId: body.emotionId });
+      response = await create({ userId: body.userId, emotionId: body.emotionId, reason: body.reason });
       break;
   }
 
