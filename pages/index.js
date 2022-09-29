@@ -13,7 +13,6 @@ export default function Home() {
   const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions?${query}`, fetcher);
 
   const handleClick = (type, emotionId) => async () => {
-    console.log('click emotion', type);
     if (type === 'primary') {
       setSelected({ primary: emotionId });
       setQuery(`type=secondary&primaryEmotionId=${emotionId}`);
@@ -41,7 +40,7 @@ export default function Home() {
   }
 
   return (
-    <Layout loading={!data}>
+    <Layout loading={!data} alignY>
       {data?.map((emotion) => {
         return (
           <div className={styles.emotion} key={emotion.id}>
