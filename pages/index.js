@@ -35,6 +35,10 @@ export default function Home() {
       method: 'POST',
       body: JSON.stringify(data),
     });
+    reset();
+  }
+
+  function reset() {
     setSelected(null);
     setQuery(`type=primary`);
   }
@@ -49,7 +53,8 @@ export default function Home() {
             {selected?.secondary === emotion.id && (
               <form className={styles.form} onSubmit={handleSubmit}>
                 <input type="text" name="reason" />
-                <button type="submit">submit</button>
+                <button type="submit">save</button>
+                <button onClick={reset}>back</button>
               </form>
             )}
           </div>
