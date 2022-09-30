@@ -3,10 +3,11 @@ import useSWR from 'swr';
 
 import styles from 'styles/Home.module.scss';
 import Layout from 'components/Layout';
+import withAuthentication from 'components/withAuthentication';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-export default function Home() {
+function Home() {
   const [selected, setSelected] = useState(null);
   const [query, setQuery] = useState('type=primary');
 
@@ -63,3 +64,5 @@ export default function Home() {
     </Layout>
   );
 }
+
+export default withAuthentication(Home);

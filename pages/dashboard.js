@@ -2,13 +2,14 @@ import useSWR from 'swr';
 import dayjs from 'dayjs';
 
 import Layout from 'components/Layout';
+import withAuthentication from 'components/withAuthentication';
 
 import globalStyles from 'styles/global.module.scss';
 import styles from 'styles/Dashboard.module.scss';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-export default function Dashboard() {
+function Dashboard() {
   const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=1&groupBy=day`, fetcher);
 
   return (
@@ -30,3 +31,5 @@ export default function Dashboard() {
     </Layout>
   );
 }
+
+export default withAuthentication(Dashboard);
