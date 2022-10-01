@@ -6,7 +6,7 @@ import Loader from 'components/Loader';
 
 import styles from 'styles/Layout.module.scss';
 
-export default function Layout({ children, loading, alignY }) {
+export default function Layout({ children, loading, alignY, alignX, noNavigation }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -15,17 +15,28 @@ export default function Layout({ children, loading, alignY }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={cn(styles.header, loading && styles.hide)}>
-        <Link href="/">
-          <span style={{ marginRight: '8px' }}>home</span>
-        </Link>
-        <Link href="/dashboard">dashboard</Link>
-      </div>
+      {!noNavigation && (
+        <div className={cn(styles.header, loading && styles.hide)}>
+          <Link href="/">
+            <span style={{ marginRight: '8px' }}>home</span>
+          </Link>
+          <Link href="/dashboard">dashboard</Link>
+        </div>
+      )}
 
       {loading ? (
         <Loader className={styles.loader} />
       ) : (
-        <main className={cn(styles.main, loading && styles.hide, alignY && styles.alignCenterY)}>{children}</main>
+        <main
+          className={cn(
+            styles.main,
+            loading && styles.hide,
+            alignY && styles.alignCenterY,
+            alignX && styles.alignCenterX,
+          )}
+        >
+          {children}
+        </main>
       )}
 
       <p className={styles.desktop}>Sorry, but we don&apos;t support desktop version right now. Keep following us!</p>
