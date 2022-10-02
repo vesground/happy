@@ -3,11 +3,10 @@ import dayjs from 'dayjs';
 
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
+import { fetcher } from 'utils';
 
 import globalStyles from 'styles/global.module.scss';
 import styles from 'styles/Dashboard.module.scss';
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 function Dashboard({ user }) {
   const { data, error } = useSWR(

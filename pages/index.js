@@ -4,8 +4,7 @@ import useSWR from 'swr';
 import styles from 'styles/Home.module.scss';
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import { fetcher } from 'utils';
 
 function Home() {
   const [selected, setSelected] = useState(null);
