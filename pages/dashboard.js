@@ -9,8 +9,11 @@ import styles from 'styles/Dashboard.module.scss';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-function Dashboard() {
-  const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=1&groupBy=day`, fetcher);
+function Dashboard({ user }) {
+  const { data, error } = useSWR(
+    () => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=${user.id}&groupBy=day`,
+    fetcher,
+  );
 
   return (
     <Layout loading={!data}>

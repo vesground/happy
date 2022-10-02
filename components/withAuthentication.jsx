@@ -11,6 +11,6 @@ export default function withAuthentication(WrappedComponent) {
       }
     }, [status]);
 
-    return <WrappedComponent />;
+    return <WrappedComponent user={data?.user} />;
   };
 }
