@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 
-import styles from 'styles/Home.module.scss';
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
 import { fetcher } from 'utils';
 import ModalEditEmotion from 'components/ModalEditEmotion';
 
+import styles from 'styles/Home.module.scss';
+
 function Home() {
   const [selected, setSelected] = useState(null);
-  const [query, setQuery] = useState('type=primary');
 
-  const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions?${query}`, fetcher);
+  const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions`, fetcher);
 
   const handleClick = (type, emotionId) => async () => {
     if (type === 'primary') {
       setSelected({ primary: emotionId });
-      setQuery(`type=secondary&primaryEmotionId=${emotionId}`);
     } else if (type === 'secondary') {
       setSelected((state) => ({ ...state, secondary: emotionId }));
     }
@@ -24,22 +23,26 @@ function Home() {
 
   function reset() {
     setSelected(null);
-    setQuery(`type=primary`);
   }
+
+  const filter = selected?.primary ? filterSecondaryEmotions(selected.primary) : filterPrimaryEmotions;
+  const emotions = data?.filter(filter) || [];
 
   return (
     <Layout loading={!data} alignY>
-      {data?.map((emotion) => {
-        return (
-          <div className={styles.emotion} key={emotion.id}>
-            <button onClick={handleClick(emotion.type, emotion.id)}>{emotion.name}</button>
-          </div>
-        );
-      })}
+      {emotions.map((emotion) => (
+        <button className={styles.emotion} key={emotion.id} onClick={handleClick(emotion.type, emotion.id)}>
+          {emotion.name}
+        </button>
+      ))}
 
       <ModalEditEmotion isOpen={!!selected?.secondary} handleClose={reset} emotionId={selected?.secondary} />
     </Layout>
   );
 }
+
+const filterPrimaryEmotions = (emotion) => emotion.type === 'primary';
+const filterSecondaryEmotions = (primaryEmotionId) => (emotion) =>
+  emotion.type === 'secondary' && primaryEmotionId === emotion.primaryEmotionId;
 
 export default withAuthentication(Home);
