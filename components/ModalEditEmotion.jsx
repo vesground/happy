@@ -2,22 +2,12 @@ import ReactModal from 'react-modal';
 
 import styles from 'styles/ModalEditEmotion.module.scss';
 
-export default function ModalEditEmotion({ isOpen, handleClose, emotionId }) {
+export default function ModalEditEmotion({ isOpen, handleClose, onSubmit, reason = '' }) {
   async function handleSubmit(event) {
     event.preventDefault();
     const reason = event.target[0].value;
 
-    const data = {
-      userId: 1,
-      emotionId,
-      reason,
-    };
-
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/records`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    handleClose();
+    onSubmit(reason);
   }
 
   return (

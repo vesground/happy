@@ -25,6 +25,20 @@ function Home() {
     setSelected(null);
   }
 
+  async function createRecord(reason) {
+    const data = {
+      userId: 1,
+      emotionId: selected.secondary,
+      reason,
+    };
+
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/records`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    reset();
+  }
+
   const filter = selected?.primary ? filterSecondaryEmotions(selected.primary) : filterPrimaryEmotions;
   const emotions = data?.filter(filter) || [];
 
@@ -36,7 +50,7 @@ function Home() {
         </button>
       ))}
 
-      <ModalEditEmotion isOpen={!!selected?.secondary} handleClose={reset} emotionId={selected?.secondary} />
+      <ModalEditEmotion isOpen={!!selected?.secondary} handleClose={reset} onSubmit={createRecord} />
     </Layout>
   );
 }

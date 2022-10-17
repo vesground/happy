@@ -1,4 +1,4 @@
-import { list, create } from 'services/records';
+import { list, create, edit } from 'services/records';
 
 export default async function handler(req, res) {
   const { method, query, body: stringifiedBody } = req;
@@ -9,8 +9,12 @@ export default async function handler(req, res) {
       response = await list({ userId: query.userId }, { groupBy: !!query.groupBy });
       break;
     case 'POST':
-      const body = JSON.parse(stringifiedBody);
-      response = await create({ userId: body.userId, emotionId: body.emotionId, reason: body.reason });
+      const postBody = JSON.parse(stringifiedBody);
+      response = await create({ userId: postBody.userId, emotionId: postBody.emotionId, reason: postBody.reason });
+      break;
+    case 'PUT':
+      const putBody = JSON.parse(stringifiedBody);
+      response = await edit({ id: putBody.id, reason: putBody.reason });
       break;
   }
 

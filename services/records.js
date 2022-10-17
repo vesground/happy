@@ -35,3 +35,19 @@ export async function create({ userId, emotionId, reason }) {
 
   return record;
 }
+
+export async function edit({ id, reason }) {
+  const record = await prisma.record.update({
+    where: {
+      id,
+    },
+    data: {
+      reason,
+    },
+    include: {
+      emotion: true,
+    },
+  });
+
+  return record;
+}
