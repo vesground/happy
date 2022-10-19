@@ -18,6 +18,8 @@ function Home() {
       setSelected({ primary: emotionId });
     } else if (type === 'secondary') {
       setSelected((state) => ({ ...state, secondary: emotionId }));
+    } else if (type === 'tertiary') {
+      setSelected((state) => ({ ...state, tertiary: emotionId }));
     }
   };
 
@@ -28,7 +30,7 @@ function Home() {
   async function createRecord(reason) {
     const data = {
       userId: 1,
-      emotionId: selected.secondary,
+      emotionId: selected.tertiary ?? selected.secondary,
       reason,
     };
 
@@ -39,8 +41,16 @@ function Home() {
     reset();
   }
 
-  const filter = selected?.primary ? filterSecondaryEmotions(selected.primary) : filterPrimaryEmotions;
+  let filter = filterPrimaryEmotions;
+  if (selected?.secondary) {
+    filter = filterTertiaryEmotions(selected.secondary);
+  } else if (selected?.primary) {
+    filter = filterSecondaryEmotions(selected.primary);
+  }
   const emotions = data?.filter(filter) || [];
+
+  const hasTertiaryEmotions = !!selected?.secondary && emotions.length > 0;
+  const isModalOpen = !!(hasTertiaryEmotions ? selected?.tertiary : selected?.secondary);
 
   return (
     <Layout loading={!data} alignY>
@@ -50,7 +60,7 @@ function Home() {
         </button>
       ))}
 
-      <ModalEditEmotion isOpen={!!selected?.secondary} handleClose={reset} onSubmit={createRecord} />
+      <ModalEditEmotion isOpen={isModalOpen} handleClose={reset} onSubmit={createRecord} />
     </Layout>
   );
 }
@@ -58,5 +68,7 @@ function Home() {
 const filterPrimaryEmotions = (emotion) => emotion.type === 'primary';
 const filterSecondaryEmotions = (primaryEmotionId) => (emotion) =>
   emotion.type === 'secondary' && primaryEmotionId === emotion.primaryEmotionId;
+const filterTertiaryEmotions = (secondaryEmotionId) => (emotion) =>
+  emotion.type === 'tertiary' && secondaryEmotionId === emotion.primaryEmotionId;
 
 export default withAuthentication(Home);
