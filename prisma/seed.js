@@ -25,14 +25,14 @@ async function insertRecord({ userId, emotionId, createdAt, reason }) {
       user: {
         connect: { id: 1 },
       },
-      emotion: {
-        connect: { id: Number(emotionId) },
+      emotions: {
+        connect: [{ id: Number(emotionId) }],
       },
       createdAt: new Date(createdAt),
       reason,
     },
   });
-  console.log('Successfully upserted emotion', newRecord.id);
+  console.log('Successfully upserted a record', newRecord.id);
 }
 
 async function insertEmotion({ name, type, primaryEmotionId }) {

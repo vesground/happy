@@ -21,15 +21,14 @@ model Emotion {
   primaryEmotionId  Int?
   primaryEmotion    Emotion?  @relation("PrimaryEmotion", fields: [primaryEmotionId], references: [id])
   secondaryEmotions Emotion[] @relation("PrimaryEmotion")
-  records           Record[]  @relation("EmotionInRecord")
+  records           Record[]
 }
 
 model Record {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  user      User     @relation("UserRecord", fields: [userId], references: [id])
-  emotionId Int
-  emotion   Emotion  @relation("EmotionInRecord", fields: [emotionId], references: [id])
-  createdAt DateTime @default(now())
+  user      User      @relation("UserRecord", fields: [userId], references: [id])
+  emotions  Emotion[]
+  createdAt DateTime  @default(now())
   reason    String?
 }

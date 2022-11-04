@@ -8,7 +8,7 @@ export async function list({ userId }, { groupBy }) {
       userId: { equals: Number(userId) },
     },
     include: {
-      emotion: true,
+      emotions: true,
     },
     orderBy: [
       {
@@ -45,7 +45,7 @@ export async function edit({ id, reason }) {
       reason,
     },
     include: {
-      emotion: true,
+      emotions: true,
     },
   });
 
