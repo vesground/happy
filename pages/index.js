@@ -5,6 +5,7 @@ import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
 import { fetcher } from 'utils';
 import ModalEditEmotion from 'components/ModalEditEmotion';
+import Button, { Secondary } from 'components/Button';
 
 import styles from 'styles/Home.module.scss';
 
@@ -55,9 +56,14 @@ function Home() {
   return (
     <Layout loading={!data} alignY>
       {emotions.map((emotion) => (
-        <button className={styles.emotion} key={emotion.id} onClick={handleClick(emotion.type, emotion.id)}>
+        <Button
+          type="secondary"
+          className={styles.emotion}
+          key={emotion.id}
+          onClick={handleClick(emotion.type, emotion.id)}
+        >
           {emotion.name}
-        </button>
+        </Button>
       ))}
 
       <ModalEditEmotion isOpen={isModalOpen} handleClose={reset} onSubmit={createRecord} />
