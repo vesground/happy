@@ -15,8 +15,10 @@ export default function ModalEditEmotion({ isOpen, handleClose, onSubmit, reason
       <form className={styles.form} onSubmit={handleSubmit}>
         <textarea type="text" name="reason" defaultValue={reason} />
         <div className={styles.buttonGroup}>
-          <button onClick={handleClose}>cancel</button>
-          <button type="submit">save</button>
+          <button type="button" onClick={handleClose}>
+            close
+          </button>
+          <button>save</button>
         </div>
       </form>
     </ReactModal>

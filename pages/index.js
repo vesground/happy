@@ -10,28 +10,28 @@ import Button, { Secondary } from 'components/Button';
 import styles from 'styles/Home.module.scss';
 
 function Home() {
-  const [selected, setSelected] = useState(null);
+  const [opened, setOpened] = useState([]);
+  const [openedModal, setOpenedModal] = useState(false);
 
   const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions`, fetcher);
 
-  const handleClick = (type, emotionId) => async () => {
-    if (type === 'primary') {
-      setSelected({ primary: emotionId });
-    } else if (type === 'secondary') {
-      setSelected((state) => ({ ...state, secondary: emotionId }));
-    } else if (type === 'tertiary') {
-      setSelected((state) => ({ ...state, tertiary: emotionId }));
-    }
+  const handleOpen = (type, emotionId) => () => {
+    setOpened((opened) => [...opened, emotionId]);
   };
 
+  function handleClose() {
+    setOpened((opened) => (opened.length ? opened.slice(0, opened.length - 1) : opened));
+  }
+
   function reset() {
-    setSelected(null);
+    setOpened([]);
   }
 
   async function createRecord(reason) {
+    const emotionId = opened.slice(-1);
     const data = {
       userId: 1,
-      emotionId: selected.tertiary ?? selected.secondary,
+      emotionId,
       reason,
     };
 
@@ -39,19 +39,27 @@ function Home() {
       method: 'POST',
       body: JSON.stringify(data),
     });
+
+    setOpenedModal(false);
     reset();
   }
 
   let filter = filterPrimaryEmotions;
-  if (selected?.secondary) {
-    filter = filterTertiaryEmotions(selected.secondary);
-  } else if (selected?.primary) {
-    filter = filterSecondaryEmotions(selected.primary);
+  if (opened.length === 2) {
+    filter = filterTertiaryEmotions(opened[1]);
+  } else if (opened.length === 1) {
+    filter = filterSecondaryEmotions(opened[0]);
   }
+
   const emotions = data?.filter(filter) || [];
 
-  const hasTertiaryEmotions = !!selected?.secondary && emotions.length > 0;
-  const isModalOpen = !!(hasTertiaryEmotions ? selected?.tertiary : selected?.secondary);
+  function openModal() {
+    setOpenedModal(true);
+  }
+
+  function closeModal() {
+    setOpenedModal(false);
+  }
 
   return (
     <Layout loading={!data} alignY>
@@ -60,13 +68,23 @@ function Home() {
           type="secondary"
           className={styles.emotion}
           key={emotion.id}
-          onClick={handleClick(emotion.type, emotion.id)}
+          onClick={handleOpen(emotion.type, emotion.id)}
         >
           {emotion.name}
         </Button>
       ))}
+      {!!opened.length && (
+        <div>
+          <Button className={styles.backBtn} onClick={handleClose}>
+            back
+          </Button>
+          <Button className={styles.submitBtn} onClick={openModal}>
+            submit
+          </Button>
+        </div>
+      )}
 
-      <ModalEditEmotion isOpen={isModalOpen} handleClose={reset} onSubmit={createRecord} />
+      <ModalEditEmotion isOpen={openedModal} handleClose={closeModal} onSubmit={createRecord} />
     </Layout>
   );
 }
