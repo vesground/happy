@@ -12,3 +12,12 @@
   color: #000;
   border: 1px solid #000;
 }
+
+.icon {
+  display: inline-flex; // buttons adds extra 3px to content height, this style remove it
+  padding: 0.5rem;
+  border-radius: 50%;
+
+  background: #fff;
+  color: #000;
+}

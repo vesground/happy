@@ -1,4 +1,9 @@
 .emotion {
+  display: flex;
+  justify-content: space-between;
+}
+
+.emotionBtn {
   align-self: start;
   margin-bottom: 0.5rem;
 }

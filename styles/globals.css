@@ -6,6 +6,10 @@ body {
     Helvetica Neue, sans-serif;
 }
 
+button {
+  font-size: 0.75rem;
+}
+
 a {
   color: inherit;
   text-decoration: none;

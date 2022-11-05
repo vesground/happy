@@ -24,12 +24,12 @@ export async function list({ userId }, { groupBy }) {
   return records;
 }
 
-export async function create({ userId, emotionId, reason }) {
+export async function create({ userId, emotionsIds, reason }) {
   const record = await prisma.record.create({
     data: {
       reason,
       user: { connect: { id: userId } },
-      emotion: { connect: { id: emotionId } },
+      emotions: { connect: emotionsIds.map((id) => ({ id })) },
     },
   });
 

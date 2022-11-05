@@ -1,22 +1,30 @@
 import { useState } from 'react';
 import useSWR from 'swr';
+import { BiPlus, BiMinus } from 'react-icons/bi';
 
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
 import { fetcher } from 'utils';
 import ModalEditEmotion from 'components/ModalEditEmotion';
-import Button, { Secondary } from 'components/Button';
+import Button from 'components/Button';
 
 import styles from 'styles/Home.module.scss';
 
 function Home() {
   const [opened, setOpened] = useState([]);
+  const [selected, setSelected] = useState([]);
+
   const [openedModal, setOpenedModal] = useState(false);
 
   const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions`, fetcher);
 
   const handleOpen = (type, emotionId) => () => {
     setOpened((opened) => [...opened, emotionId]);
+  };
+
+  const handleSelect = (emotionId) => () => {
+    const isSelected = selected.includes(emotionId);
+    setSelected((selected) => (isSelected ? selected.filter((id) => id !== emotionId) : [...selected, emotionId]));
   };
 
   function handleClose() {
@@ -28,10 +36,9 @@ function Home() {
   }
 
   async function createRecord(reason) {
-    const emotionId = opened.slice(-1);
     const data = {
-      userId: 1,
-      emotionId,
+      userId: 3,
+      emotions: selected,
       reason,
     };
 
@@ -64,25 +71,33 @@ function Home() {
   return (
     <Layout loading={!data} alignY>
       {emotions.map((emotion) => (
-        <Button
-          type="secondary"
-          className={styles.emotion}
-          key={emotion.id}
-          onClick={handleOpen(emotion.type, emotion.id)}
-        >
-          {emotion.name}
-        </Button>
+        <div className={styles.emotion} key={emotion.id}>
+          <Button
+            type="secondary"
+            className={styles.emotionBtn}
+            key={emotion.id}
+            onClick={handleOpen(emotion.type, emotion.id)}
+          >
+            {emotion.name}
+          </Button>
+          <Button type="icon" onClick={handleSelect(emotion.id)}>
+            {selected.includes(emotion.id) ? <BiMinus /> : <BiPlus />}
+          </Button>
+        </div>
       ))}
-      {!!opened.length && (
-        <div>
+
+      <div>
+        {!!opened.length && (
           <Button className={styles.backBtn} onClick={handleClose}>
             back
           </Button>
+        )}
+        {!!selected.length && (
           <Button className={styles.submitBtn} onClick={openModal}>
             submit
           </Button>
-        </div>
-      )}
+        )}
+      </div>
 
       <ModalEditEmotion isOpen={openedModal} handleClose={closeModal} onSubmit={createRecord} />
     </Layout>

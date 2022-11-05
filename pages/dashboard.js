@@ -54,7 +54,14 @@ function Dashboard({ user }) {
             <h3>{dayjs(dayDate).format('DD/MM')}</h3>
             {records.map(({ id, emotions, reason }) => (
               <div className={styles.record} key={id}>
-                <p className={globalStyles.textRegular}>{emotions[0].name}</p>
+                <p className={globalStyles.textRegular}>
+                  {emotions.map((emotion, index) => (
+                    <span key={index}>
+                      {0 === index ? emotion.name : emotion.name.toLowerCase()}
+                      {emotions.length - 1 === index ? '' : ', '}
+                    </span>
+                  ))}
+                </p>
                 {reason && (
                   <p className={globalStyles.textSmall} onClick={openModal({ id, reason, dayDate })}>
                     {reason}
