@@ -6,7 +6,7 @@ import { pickBy, identity } from 'lodash';
 
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
-import ModalEditEmotion from 'components/ModalEditEmotion';
+import ModalEditEmotion from 'components/ModalRecordReason';
 import ModalRecordEmotions from 'components/ModalRecordEmotions';
 
 import globalStyles from 'styles/global.module.scss';

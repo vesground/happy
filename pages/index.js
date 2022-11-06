@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
-import ModalEditEmotion from 'components/ModalEditEmotion';
+import ModalEditEmotion from 'components/ModalRecordReason';
 import Button from 'components/Button';
 import EmotionsSelect from 'components/EmotionsSelect';
 

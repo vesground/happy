@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 
 import EmotionsSelect from 'components/EmotionsSelect';
 
-import styles from 'styles/ModalEditEmotion.module.scss';
+import styles from 'styles/ModalRecordReason.module.scss';
 
 export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, record }) {
   const [selected, setSelected] = useState([]);

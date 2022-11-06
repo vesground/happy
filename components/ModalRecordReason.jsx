@@ -1,8 +1,8 @@
 import ReactModal from 'react-modal';
 
-import styles from 'styles/ModalEditEmotion.module.scss';
+import styles from 'styles/ModalRecordReason.module.scss';
 
-export default function ModalEditEmotion({ isOpen, handleClose, onSubmit, reason = '' }) {
+export default function ModalRecordReason({ isOpen, handleClose, onSubmit, reason = '' }) {
   async function handleSubmit(event) {
     event.preventDefault();
     const reason = event.target[0].value;
