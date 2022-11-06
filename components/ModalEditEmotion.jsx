@@ -7,7 +7,7 @@ export default function ModalEditEmotion({ isOpen, handleClose, onSubmit, reason
     event.preventDefault();
     const reason = event.target[0].value;
 
-    onSubmit(reason);
+    onSubmit({ reason });
   }
 
   return (

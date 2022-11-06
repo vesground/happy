@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       break;
     case 'PUT':
       const putBody = JSON.parse(stringifiedBody);
-      response = await edit({ id: putBody.id, reason: putBody.reason });
+      response = await edit({ id: putBody.id, emotionsIds: putBody.emotions, reason: putBody.reason });
       break;
   }
 

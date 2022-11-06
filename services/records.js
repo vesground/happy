@@ -36,14 +36,22 @@ export async function create({ userId, emotionsIds, reason }) {
   return record;
 }
 
-export async function edit({ id, reason }) {
+export async function edit({ id, emotionsIds, reason }) {
+  const data = {};
+
+  if (emotionsIds) {
+    data.emotions = { set: emotionsIds.map((id) => ({ id })) };
+  }
+
+  if (reason) {
+    data.reason = reason;
+  }
+
   const record = await prisma.record.update({
     where: {
       id,
     },
-    data: {
-      reason,
-    },
+    data,
     include: {
       emotions: true,
     },
