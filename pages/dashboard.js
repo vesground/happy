@@ -62,25 +62,8 @@ function Dashboard({ user }) {
             <h3>{dayjs(dayDate).format('DD/MM')}</h3>
             {records.map(({ id, emotions, reason }) => (
               <div className={styles.record} key={id}>
-                <p
-                  className={globalStyles.textRegular}
-                  onClick={openModal({ id, emotions: emotions.map(mapEmotionsIds), dayDate }, MODAL_RECORD_EMOTIONS)}
-                >
-                  {emotions.map((emotion, index) => (
-                    <span key={index}>
-                      {0 === index ? emotion.name : emotion.name.toLowerCase()}
-                      {emotions.length - 1 === index ? '' : ', '}
-                    </span>
-                  ))}
-                </p>
-                {reason && (
-                  <p
-                    className={globalStyles.textSmall}
-                    onClick={openModal({ id, reason, dayDate }, MODAL_RECORD_REASON)}
-                  >
-                    {reason}
-                  </p>
-                )}
+                <RecordEmotion id={id} emotions={emotions} dayDate={dayDate} openModal={openModal} />
+                <RecordReason id={id} reason={reason} dayDate={dayDate} openModal={openModal} />
               </div>
             ))}
           </>
@@ -101,6 +84,30 @@ function Dashboard({ user }) {
         reason={openedModal?.record.reason}
       />
     </Layout>
+  );
+}
+
+function RecordEmotion({ id, emotions, dayDate, openModal }) {
+  return (
+    <p
+      className={globalStyles.textRegular}
+      onClick={openModal({ id, emotions: emotions.map(mapEmotionsIds), dayDate }, MODAL_RECORD_EMOTIONS)}
+    >
+      {emotions.map((emotion, index) => (
+        <span key={index}>
+          {0 === index ? emotion.name : emotion.name.toLowerCase()}
+          {emotions.length - 1 === index ? '' : ', '}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+function RecordReason({ id, reason, dayDate, openModal }) {
+  return (
+    <p className={globalStyles.textSmall} onClick={openModal({ id, reason, dayDate }, MODAL_RECORD_REASON)}>
+      {reason}
+    </p>
   );
 }
 
