@@ -19,9 +19,9 @@ function Home() {
     setSelected((selected) => (isSelected ? selected.filter((id) => id !== emotionId) : [...selected, emotionId]));
   };
 
-  async function createRecord(reason) {
+  async function createRecord({ reason }) {
     const data = {
-      userId: 3,
+      userId: 1,
       emotions: selected,
       reason,
     };
@@ -32,7 +32,8 @@ function Home() {
     });
 
     setOpenedModal(false);
-    selectorRef.currect.close();
+
+    selectorRef.current.close();
   }
 
   function openModal() {
