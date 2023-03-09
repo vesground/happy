@@ -44,8 +44,6 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
           {children}
         </main>
       )}
-
-      <p className={styles.desktop}>Sorry, but we don&apos;t support desktop version right now. Keep following us!</p>
     </div>
   );
 }
