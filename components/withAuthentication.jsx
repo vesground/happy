@@ -1,13 +1,19 @@
 import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router'
 
 export default function withAuthentication(WrappedComponent) {
   return function Component() {
     const { data, status } = useSession();
+    const router = useRouter();
 
     useEffect(() => {
       if (status !== 'loading' && status === 'unauthenticated') {
-        signIn();
+        router.replace({
+          pathname: '/auth/signin',
+          query: { redirectUrl: `${process.env.NEXT_PUBLIC_HOST}${router.asPath}` },
+        })
       }
     }, [status]);
 

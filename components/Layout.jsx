@@ -24,7 +24,7 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
           <Link href="/dashboard">
             <span style={{ marginRight: '8px' }}>dashboard</span>
           </Link>
-          <span className={styles.logout} onClick={signOut}>
+          <span className={styles.logout} onClick={() => signOut({redirect: false})}>
             logout
           </span>
         </div>
