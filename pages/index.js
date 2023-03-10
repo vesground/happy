@@ -8,7 +8,7 @@ import EmotionsSelect from 'components/EmotionsSelect';
 
 import styles from 'styles/Home.module.scss';
 
-function Home({unauthorized}) {
+function Home({unauthorized, user}) {
   const [selected, setSelected] = useState([]);
   const selectorRef = useRef();
 
@@ -21,7 +21,7 @@ function Home({unauthorized}) {
 
   async function createRecord({ reason }) {
     const data = {
-      userId: 1,
+      userId: user.id,
       emotions: selected,
       reason,
     };
