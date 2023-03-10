@@ -8,7 +8,7 @@ import EmotionsSelect from 'components/EmotionsSelect';
 
 import styles from 'styles/Home.module.scss';
 
-function Home() {
+function Home({unauthorized}) {
   const [selected, setSelected] = useState([]);
   const selectorRef = useRef();
 
@@ -45,7 +45,7 @@ function Home() {
   }
 
   return (
-    <Layout alignY>
+    <Layout alignY loading={unauthorized}>
       <EmotionsSelect selected={selected} onChange={handleSelect} ref={selectorRef} />
 
       {!!selected.length && (

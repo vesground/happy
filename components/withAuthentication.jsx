@@ -1,4 +1,3 @@
-import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router'
@@ -17,6 +16,6 @@ export default function withAuthentication(WrappedComponent) {
       }
     }, [status]);
 
-    return <WrappedComponent user={data?.user} />;
+    return <WrappedComponent user={data?.user} unauthorized={status === 'loading' || status === 'unauthenticated'} />;
   };
 }
