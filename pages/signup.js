@@ -24,7 +24,7 @@ function Signup() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="name" />
         <input type="text" name="password" placeholder="password" />
-        <button type="submit">signup</button>
+        <button type="submit">Sign Up</button>
       </form>
     </Layout>
   );
