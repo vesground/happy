@@ -1,8 +1,12 @@
+import { useRouter } from 'next/router'
+
 import Layout from 'components/Layout';
 
 import styles from 'styles/Signup.module.scss';
 
 function Signup() {
+  const router = useRouter()
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -19,12 +23,18 @@ function Signup() {
     formElm.reset();
   }
 
+  function handleLoginClick() {
+    router.replace('/auth/signin')
+  }
+
   return (
     <Layout alignY alignX noNavigation>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="name" />
         <input type="text" name="password" placeholder="password" />
         <button type="submit">Sign Up</button>
+
+        <p>Have an account? <a onClick={handleLoginClick}>Login</a></p>
       </form>
     </Layout>
   );
