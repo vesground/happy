@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { signIn } from "next-auth/react"
 import { useRouter } from 'next/router'
 import cn from "classnames";
 
 import Layout from 'components/Layout';
+import { Requests } from "utils/request";
 
 import styles from 'styles/Signup.module.scss';
 
@@ -20,11 +22,17 @@ function Signup() {
     const data = { name, password };
 
     setAuthorizing(true)
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    formElm.reset();
+
+    try {
+      await Requests.post('/api/users', data)
+    } catch (e) {
+      setAuthorizing(false)
+      return;
+    }
+ 
+    await signIn('auth-provider', {username: name, password, redirect: false})
+
+    router.push('/')
   }
 
   function handleLoginClick() {
