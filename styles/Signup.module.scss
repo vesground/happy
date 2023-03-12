@@ -6,4 +6,35 @@
   input {
     margin-bottom: 0.5rem;
   }
+
+}
+
+.buttonLoading {
+  color: #efefef;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: -2px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 1.5px solid transparent;
+    border-top-color: #767676;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+}
+
+@keyframes button-loading-spinner {
+  from {
+      transform: rotate(0turn);
+  }
+
+  to {
+      transform: rotate(1turn);
+  }
 }

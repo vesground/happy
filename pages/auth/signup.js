@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useRouter } from 'next/router'
+import cn from "classnames";
 
 import Layout from 'components/Layout';
 
 import styles from 'styles/Signup.module.scss';
 
 function Signup() {
+  const [authorizing, setAuthorizing] = useState(false)
   const router = useRouter()
 
   async function handleSubmit(event) {
@@ -16,7 +19,8 @@ function Signup() {
 
     const data = { name, password };
 
-    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
+    setAuthorizing(true)
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -32,7 +36,7 @@ function Signup() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="name" />
         <input type="text" name="password" placeholder="password" />
-        <button type="submit">Sign Up</button>
+        <button type="submit" className={cn(authorizing && styles.buttonLoading)} disabled={authorizing}>Sign Up</button>
 
         <p>Have an account? <a onClick={handleLoginClick}>Login</a></p>
       </form>
