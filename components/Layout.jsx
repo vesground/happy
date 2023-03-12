@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import cn from 'classnames';
@@ -8,6 +9,14 @@ import Loader from 'components/Loader';
 import styles from 'styles/Layout.module.scss';
 
 export default function Layout({ children, loading, alignY, alignX, noNavigation }) {
+  const [signingOut, setSigningOut] = useState(false);
+
+  async function handleSingOutClick() {
+    setSigningOut(true);
+    await signOut({redirect: false})
+    setSigningOut(false);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +25,7 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {!noNavigation && (
+      {(!noNavigation && !signingOut) && (
         <div className={cn(styles.header, loading && styles.hide)}>
           <Link href="/">
             <span style={{ marginRight: '8px' }}>home</span>
@@ -24,13 +33,13 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
           <Link href="/dashboard">
             <span style={{ marginRight: '8px' }}>dashboard</span>
           </Link>
-          <span className={styles.logout} onClick={() => signOut({redirect: false})}>
+          <span className={styles.logout} onClick={handleSingOutClick}>
             logout
           </span>
         </div>
       )}
 
-      {loading ? (
+      {(loading || signingOut) ? (
         <Loader className={styles.loader} />
       ) : (
         <main
