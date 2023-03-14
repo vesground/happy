@@ -29,7 +29,7 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
           <Link href="/dashboard">
             <span style={{ marginRight: '8px' }}>dashboard</span>
           </Link>
-          <Link href="/auth/signin">
+          <Link href="/auth/signin" shallow={true}>
           <span className={styles.logout} onClick={handleSingOutClick}>
             logout
           </span>
