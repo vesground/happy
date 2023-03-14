@@ -5,16 +5,10 @@ import cn from "classnames";
 import { useForm } from "react-hook-form";
 
 import Layout from 'components/Layout';
+import Input from 'components/Input';
 import { Requests } from "utils/request";
 
 import styles from 'styles/Signup.module.scss';
-
-const Input = ({ name, register, required, type, placeholder, error }) => (
-  <div className={styles.input}>
-    <input type={type} placeholder={placeholder} {...register(name, { required })} />
-    {error && <span className={styles.error}>{error.message}</span>}
-  </div>
-);
 
 function Signup() {
   const [authorizing, setAuthorizing] = useState(false)

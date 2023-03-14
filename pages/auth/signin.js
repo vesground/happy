@@ -2,8 +2,10 @@ import { useState } from "react";
 import { signIn } from "next-auth/react"
 import { useRouter } from 'next/router'
 import cn from "classnames";
+import { useForm } from "react-hook-form";
 
 import Layout from 'components/Layout';
+import Input from 'components/Input';
 
 import styles from 'styles/Signup.module.scss';
 
@@ -11,18 +13,12 @@ function Signin() {
   const [authorizing, setAuthorizing] = useState(false)
   const router = useRouter()
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const formElm = event.target;
-    const username = formElm[0].value;
-    const password = formElm[1].value;
-
+  async function onSubmit({name, password}) {
     setAuthorizing(true)
-    const data = { username, password, redirect: false}
-    await signIn('auth-provider', data)
+    await signIn('auth-provider', { username: name, password, redirect: false})
 
-    formElm.reset();
     router.replace(router.query.redirectUrl || '/')
   }
 
@@ -32,9 +28,9 @@ function Signin() {
 
   return (
     <Layout alignY alignX noNavigation>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="name" />
-        <input type="text" name="password" placeholder="password" />
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} />
+        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} />
         <button type="submit" className={cn(authorizing && styles.buttonLoading)} disabled={authorizing}>Login</button>
 
         <p>New here? <a onClick={handleSignupClick}>Sign up</a></p>
