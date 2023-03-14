@@ -2,30 +2,33 @@ import { useState } from "react";
 import { signIn } from "next-auth/react"
 import { useRouter } from 'next/router'
 import cn from "classnames";
+import { useForm } from "react-hook-form";
 
 import Layout from 'components/Layout';
 import { Requests } from "utils/request";
 
 import styles from 'styles/Signup.module.scss';
 
+const Input = ({ name, register, required, type, placeholder, error }) => (
+  <div className={styles.input}>
+    <input type={type} placeholder={placeholder} {...register(name, { required })} />
+    {error && <span className={styles.error}>{error.message}</span>}
+  </div>
+);
+
 function Signup() {
   const [authorizing, setAuthorizing] = useState(false)
   const router = useRouter()
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const { register, handleSubmit, formState: { errors }, setError } = useForm();
 
-    const formElm = event.target;
-    const name = formElm[0].value;
-    const password = formElm[1].value;
-
-    const data = { name, password };
-
+  async function onSubmit({name, password}) {
     setAuthorizing(true)
 
     try {
-      await Requests.post('/api/users', data)
+      await Requests.post('/api/users', { name, password })
     } catch (e) {
+      setError('name', { message: 'This name is already taken'}, { shouldFocus: true})
       setAuthorizing(false)
       return;
     }
@@ -41,9 +44,9 @@ function Signup() {
 
   return (
     <Layout alignY alignX noNavigation>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="name" />
-        <input type="text" name="password" placeholder="password" />
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} />
+        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} />
         <button type="submit" className={cn(authorizing && styles.buttonLoading)} disabled={authorizing}>Sign Up</button>
 
         <p>Have an account? <a onClick={handleLoginClick}>Login</a></p>
