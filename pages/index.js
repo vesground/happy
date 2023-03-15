@@ -33,6 +33,7 @@ function Home({unauthorized, user}) {
 
     setOpenedModal(false);
 
+    setSelected([])
     selectorRef.current.close();
   }
 
