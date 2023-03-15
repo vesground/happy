@@ -3,10 +3,7 @@ import { useState, useRef } from 'react';
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
 import ModalEditEmotion from 'components/ModalRecordReason';
-import Button from 'components/select/Button';
 import EmotionsSelect from 'components/select';
-
-import styles from 'styles/Home.module.scss';
 
 function Home({unauthorized, user}) {
   const [selected, setSelected] = useState([]);
