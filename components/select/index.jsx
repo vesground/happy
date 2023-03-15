@@ -3,11 +3,11 @@ import useSWR from 'swr';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
 import { fetcher } from 'utils';
-import Button from 'components/Button';
+import Button from 'components/select/Button';
 
-import styles from 'styles/EmotionsSelect.module.scss';
+import styles from 'styles/select/index.module.scss';
 
-function EmotionsSelect({ selected, onChange }, ref) {
+function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
   const [opened, setOpened] = useState([]);
 
   useImperativeHandle(ref, () => ({
@@ -57,6 +57,11 @@ function EmotionsSelect({ selected, onChange }, ref) {
           </Button>
         </div>
       ))}
+      {!!selected.length && (
+        <Button className={styles.submitBtn} onClick={onSubmit}>
+          submit
+        </Button>
+      )}
     </div>
   );
 }

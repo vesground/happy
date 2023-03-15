@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 
-import EmotionsSelect from 'components/EmotionsSelect';
+import EmotionsSelect from 'components/select';
 
 import styles from 'styles/ModalRecordReason.module.scss';
 

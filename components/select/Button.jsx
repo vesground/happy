@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-import styles from 'styles/Button.module.scss';
+import styles from 'styles/select/Button.module.scss';
 
 export default function Button({ className, type, children, ...props }) {
   return (
