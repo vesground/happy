@@ -4,6 +4,7 @@ import { BiPlus, BiMinus } from 'react-icons/bi';
 
 import { fetcher } from 'utils';
 import Button from 'components/select/Button';
+import Loader from 'components/Loader';
 
 import styles from 'styles/select/index.module.scss';
 
@@ -32,6 +33,8 @@ function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
   } else if (opened.length === 1) {
     filter = filterSecondaryEmotions(opened[0]);
   }
+
+  if (!data?.length) return <Loader className={styles.loaderAlignCenter}/>;
 
   const emotions = data?.filter(filter) || [];
 
