@@ -11,6 +11,7 @@ import ModalRecordEmotions from 'components/ModalRecordEmotions';
 
 import globalStyles from 'styles/global.module.scss';
 import styles from 'styles/Dashboard.module.scss';
+import Link from 'next/link';
 
 const MODAL_RECORD_EMOTIONS = 'MODAL_RECORD_EMOTIONS';
 const MODAL_RECORD_REASON = 'MODAL_RECORD_REASON';
@@ -55,7 +56,7 @@ function Dashboard({ user }) {
 
   return (
     <Layout loading={!data}>
-      {Object.keys(data || []).map((dayDate) => {
+      {data ? Object.keys(data).map((dayDate) => {
         const records = data[dayDate];
         return (
           <>
@@ -68,7 +69,7 @@ function Dashboard({ user }) {
             ))}
           </>
         );
-      })}
+      }): <p>No records. Go and add some <Link href='/'>here</Link></p>}
 
       <ModalRecordEmotions
         isOpen={openedModal?.type === MODAL_RECORD_EMOTIONS}
