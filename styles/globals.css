@@ -6,6 +6,16 @@ body {
     Helvetica Neue, sans-serif;
 }
 
+body {
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+
 button {
   font-size: 0.75rem;
 }
