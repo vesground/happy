@@ -18,6 +18,7 @@ const MODAL_RECORD_REASON = 'MODAL_RECORD_REASON';
 
 function Dashboard({ user }) {
   const [openedModal, setOpenedModal] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { data, error, mutate } = useSWR(
     () => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=${user.id}&groupBy=day`,
@@ -35,6 +36,7 @@ function Dashboard({ user }) {
   }
 
   async function editRecord(newRecord) {
+    setLoading(true);
     const cleanedRecord = pickBy(newRecord, identity);
 
     const body = {
@@ -52,6 +54,7 @@ function Dashboard({ user }) {
     mutate(newData);
 
     closeModal();
+    setLoading(false);
   }
 
   return (
@@ -76,6 +79,7 @@ function Dashboard({ user }) {
         handleClose={closeModal}
         onSubmit={editRecord}
         record={openedModal?.record}
+        loading={loading}
       />
 
       <ModalEditEmotion
@@ -83,6 +87,7 @@ function Dashboard({ user }) {
         handleClose={closeModal}
         onSubmit={editRecord}
         reason={openedModal?.record.reason}
+        loading={loading}
       />
     </Layout>
   );

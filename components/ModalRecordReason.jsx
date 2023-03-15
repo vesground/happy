@@ -1,8 +1,9 @@
 import ReactModal from 'react-modal';
 
 import styles from 'styles/ModalRecordReason.module.scss';
+import Button from 'components/Button';
 
-export default function ModalRecordReason({ isOpen, handleClose, onSubmit, reason = '' }) {
+export default function ModalRecordReason({ isOpen, handleClose, onSubmit, reason = '', loading }) {
   async function handleSubmit(event) {
     event.preventDefault();
     const reason = event.target[0].value;
@@ -15,10 +16,10 @@ export default function ModalRecordReason({ isOpen, handleClose, onSubmit, reaso
       <form className={styles.form} onSubmit={handleSubmit}>
         <textarea type="text" name="reason" defaultValue={reason} />
         <div className={styles.buttonGroup}>
-          <button type="button" onClick={handleClose}>
+          <Button type="button" onClick={handleClose} disabled={loading}>
             close
-          </button>
-          <button>save</button>
+          </Button>
+          <Button type="submit" loading={loading}>save</Button>
         </div>
       </form>
     </ReactModal>

@@ -4,8 +4,9 @@ import ReactModal from 'react-modal';
 import EmotionsSelect from 'components/select';
 
 import styles from 'styles/ModalRecordReason.module.scss';
+import Button from 'components/Button';
 
-export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, record }) {
+export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, record, loading }) {
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
@@ -30,10 +31,10 @@ export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, rec
       <EmotionsSelect selected={selected} onChange={handleSelect} />
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.buttonGroup}>
-          <button type="button" onClick={handleClose}>
+          <Button type="button" onClick={handleClose} disabled={loading}>
             close
-          </button>
-          <button>save</button>
+          </Button>
+          <Button type="submit" loading={loading}>save</Button>
         </div>
       </form>
     </ReactModal>

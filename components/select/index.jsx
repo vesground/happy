@@ -57,7 +57,7 @@ function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
           </Button>
         </div>
       ))}
-      {!!selected.length && (
+      {!!selected.length && onSubmit && (
         <Button className={styles.submitBtn} onClick={onSubmit}>
           submit
         </Button>
