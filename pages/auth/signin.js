@@ -8,6 +8,7 @@ import Layout from 'components/Layout';
 import Input from 'components/Input';
 
 import styles from 'styles/Signup.module.scss';
+import Button from "components/Button";
 
 function Signin() {
   const [authorizing, setAuthorizing] = useState(false)
@@ -31,7 +32,7 @@ function Signin() {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} />
         <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} />
-        <button type="submit" className={cn(authorizing && styles.buttonLoading)} disabled={authorizing}>Login</button>
+        <Button type="submit" loading={authorizing}>Login</Button>
 
         <p>New here? <a onClick={handleSignupClick}>Sign up</a></p>
       </form>

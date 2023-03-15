@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 
 import Layout from 'components/Layout';
 import Input from 'components/Input';
+import Button from 'components/Button';
 import { Requests } from "utils/request";
 
 import styles from 'styles/Signup.module.scss';
@@ -41,7 +42,7 @@ function Signup() {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} />
         <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} />
-        <button type="submit" className={cn(authorizing && styles.buttonLoading)} disabled={authorizing}>Sign Up</button>
+        <Button type="submit" loading={authorizing}>Sign Up</Button>
 
         <p>Have an account? <a onClick={handleLoginClick}>Login</a></p>
       </form>

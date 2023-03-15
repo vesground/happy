@@ -1,23 +1,41 @@
 .button {
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  border: none;
+  position: relative;
 
-  color: white;
-  background: #000;
+  color: black;
+  background:#efefef;
+  padding: 1px 12px;
+  border: 1px solid #767676;
+  border-radius:15px;
+
+  font-weight: 400;
 }
 
-.secondary {
-  background: #fff;
-  color: #000;
-  border: 1px solid #000;
+.loading {
+  color: #efefef;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 1.5px solid transparent;
+    border-top-color: #767676;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
 }
 
-.icon {
-  display: inline-flex; // buttons adds extra 3px to content height, this style remove it
-  padding: 0.5rem;
-  border-radius: 50%;
+@keyframes button-loading-spinner {
+  from {
+      transform: rotate(0turn);
+  }
 
-  background: #fff;
-  color: #000;
+  to {
+      transform: rotate(1turn);
+  }
 }
