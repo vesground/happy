@@ -39,7 +39,7 @@ function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
     <div>
       {!!opened.length && (
         <Button className={styles.backBtn} onClick={handleClose}>
-          back
+          Back
         </Button>
       )}
       {emotions.map((emotion) => (
@@ -57,9 +57,9 @@ function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
           </Button>
         </div>
       ))}
-      {!!selected.length && onSubmit && (
-        <Button className={styles.submitBtn} onClick={onSubmit}>
-          submit
+      {onSubmit && (
+        <Button className={styles.submitBtn} onClick={onSubmit} disabled={!selected.length}>
+          Submit
         </Button>
       )}
     </div>
