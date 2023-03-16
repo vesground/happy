@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import EmotionsSelect from 'components/select';
 
-import styles from 'styles/ModalRecordReason.module.scss';
+import styles from 'styles/Modal.module.scss';
 import Button from 'components/Button';
 
 export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, record, loading }) {

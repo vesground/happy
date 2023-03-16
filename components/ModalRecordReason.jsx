@@ -1,6 +1,6 @@
 import ReactModal from 'react-modal';
 
-import styles from 'styles/ModalRecordReason.module.scss';
+import styles from 'styles/Modal.module.scss';
 import Button from 'components/Button';
 
 export default function ModalRecordReason({ isOpen, handleClose, onSubmit, reason = '', loading }) {
