@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
+import cn from 'classnames';
 
 import EmotionsSelect from 'components/select';
 
@@ -29,14 +30,12 @@ export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, rec
   return (
     <ReactModal isOpen={isOpen} contentLabel="Edit emotion">
       <EmotionsSelect selected={selected} onChange={handleSelect} />
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.buttonGroup}>
+        <div className={cn(styles.buttonGroup, styles.buttonGroupBottomRight)}>
           <Button type="button" onClick={handleClose} disabled={loading}>
             close
           </Button>
-          <Button type="submit" loading={loading}>save</Button>
+          <Button type="submit" loading={loading} onClick={handleSubmit}>save</Button>
         </div>
-      </form>
     </ReactModal>
   );
 }
