@@ -8,14 +8,14 @@ import Loader from 'components/Loader';
 
 import styles from 'styles/Layout.module.scss';
 
-export default function Layout({ children, loading, alignY, alignX, noNavigation }) {
+export default function Layout({ children, loading, alignY, alignX, noNavigation, contentToBottom }) {
   const router = useRouter();
   async function handleSingOutClick() {
     signOut({redirect: false})
   }
 
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, !contentToBottom && styles.bottomPadding)}>
       <Head>
         <title>Emotional</title>
         <meta name="description" content="Learn your emotions" />

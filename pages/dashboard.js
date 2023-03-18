@@ -58,7 +58,7 @@ function Dashboard({ user }) {
   }
 
   return (
-    <Layout loading={!data}>
+    <Layout loading={!data} contentToBottom>
       {data ? Object.keys(data).map((dayDate) => {
         const records = data[dayDate];
         return (

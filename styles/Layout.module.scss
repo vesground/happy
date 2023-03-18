@@ -2,7 +2,11 @@
   position: fixed;
   height: 100%;
   width: 100vw;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 0;
+}
+
+.bottomPadding {
+  padding-bottom: 1rem;
 }
 
 .main {
