@@ -57,9 +57,11 @@ function Dashboard({ user }) {
     setLoading(false);
   }
 
+  const recordsDates = Object.keys(data || {})
+
   return (
     <Layout loading={!data} contentToBottom>
-      {data ? Object.keys(data).map((dayDate) => {
+      {recordsDates?.length ? recordsDates.map((dayDate) => {
         const records = data[dayDate];
         return (
           <>
@@ -72,7 +74,7 @@ function Dashboard({ user }) {
             ))}
           </>
         );
-      }): <p>No records. Go and add some <Link href='/'>here</Link></p>}
+      }): <p>Empty list. Go and add new records <Link href='/'>here</Link>.</p>}
 
       <ModalRecordEmotions
         isOpen={openedModal?.type === MODAL_RECORD_EMOTIONS}
