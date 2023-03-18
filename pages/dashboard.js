@@ -57,9 +57,11 @@ function Dashboard({ user }) {
     setLoading(false);
   }
 
+  const recordsDates = Object.keys(data || {})
+
   return (
     <Layout loading={!data} contentToBottom>
-      {data ? Object.keys(data).map((dayDate) => {
+      {recordsDates?.length ? recordsDates.map((dayDate) => {
         const records = data[dayDate];
         return (
           <>
