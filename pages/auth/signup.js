@@ -21,14 +21,14 @@ function Signup() {
     setAuthorizing(true)
 
     try {
-      await Requests.post('/api/users', { name, password })
+      await Requests.post('/api/users', { name: name.trim(), password })
     } catch (e) {
       setError('name', { message: 'This name is already taken'}, { shouldFocus: true})
       setAuthorizing(false)
       return;
     }
  
-    await signIn('auth-provider', {username: name, password, redirect: false})
+    await signIn('auth-provider', {username: name.trim(), password, redirect: false})
 
     router.push('/')
   }
@@ -40,8 +40,8 @@ function Signup() {
   return (
     <Layout alignY alignX noNavigation>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} />
-        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} />
+        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} autocapitalize='off' autocomplete='username' />
+        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} autocapitalize='off' autocomplete='password' />
         <Button type="submit" loading={authorizing}>Sign Up</Button>
 
         <p>Have an account? <a onClick={handleLoginClick}>Login</a></p>

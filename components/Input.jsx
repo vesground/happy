@@ -1,9 +1,9 @@
 import styles from 'styles/Input.module.scss';
 
-export default function Input({ name, register, required, type, placeholder, error }) {
+export default function Input({ name, register, required, error, ...inputProps }) {
   return (
     <div className={styles.input}>
-      <input type={type} placeholder={placeholder} {...register(name, { required })} />
+      <input {...register(name, { required })} {...inputProps} />
       {error && <span className={styles.error}>{error.message || "This is required"}</span>}
     </div>
   );

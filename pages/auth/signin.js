@@ -30,8 +30,8 @@ function Signin() {
   return (
     <Layout alignY alignX noNavigation>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} />
-        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} />
+        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} autocapitalize='off' autocomplete='username' />
+        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} autocapitalize='off' autocomplete='password' />
         <Button type="submit" loading={authorizing}>Login</Button>
 
         <p>New here? <a onClick={handleSignupClick}>Sign up</a></p>
