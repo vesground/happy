@@ -20,6 +20,9 @@ function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
   const { data, error } = useSWR(() => `${process.env.NEXT_PUBLIC_HOST}/api/emotions`, fetcher);
 
   const handleOpen = (type, emotionId) => () => {
+    if (type === 'tertiary') {
+      return;
+    }
     setOpened((opened) => [...opened, emotionId]);
   };
 
