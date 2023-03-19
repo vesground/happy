@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import dayjs from 'dayjs';
 import { fetcher } from 'utils';
 import { pickBy, identity } from 'lodash';
+import utc from 'dayjs/plugin/utc'
 
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
@@ -12,6 +13,8 @@ import ModalRecordEmotions from 'components/ModalRecordEmotions';
 import globalStyles from 'styles/global.module.scss';
 import styles from 'styles/Dashboard.module.scss';
 import Link from 'next/link';
+
+dayjs.extend(utc)
 
 const MODAL_RECORD_EMOTIONS = 'MODAL_RECORD_EMOTIONS';
 const MODAL_RECORD_REASON = 'MODAL_RECORD_REASON';
@@ -49,12 +52,11 @@ function Dashboard({ user }) {
       body: JSON.stringify(body),
     });
     const updatedRecord = await response.json();
-
     const newData = insertUpdatedRecord(data, updatedRecord);
-    mutate(newData);
+    await mutate(newData);
 
-    closeModal();
     setLoading(false);
+    closeModal();
   }
 
   const recordsDates = Object.keys(data || {})
@@ -126,9 +128,15 @@ function mapEmotionsIds(emotion) {
 function insertUpdatedRecord(data, updated) {
   const newData = { ...data };
 
-  const dayStartAt = dayjs(updated.createdAt).startOf('day');
-  const dayRecordIndex = newData[dayStartAt].findIndex((record) => record.id === updated.id);
-  newData[dayStartAt][dayRecordIndex] = updated;
+  // const dayStartAt = dayjs(updated.createdAt).startOf('day');
+  const dayStartAt = dayjs.utc(updated.createdAt).utcOffset(0).startOf('day');
+
+  if (newData[dayStartAt]) {
+    const dayRecordIndex = newData[dayStartAt].findIndex((record) => record.id === updated.id);
+    newData[dayStartAt][dayRecordIndex] = updated;
+  } else {
+    alert(`Record with ${dayStartAt} date not found`)
+  }
 
   return newData;
 }

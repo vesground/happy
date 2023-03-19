@@ -6,6 +6,7 @@ import ModalEditEmotion from 'components/ModalRecordReason';
 import EmotionsSelect from 'components/select';
 
 function Home({unauthorized, user}) {
+  const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState([]);
   const selectorRef = useRef();
 
@@ -17,6 +18,7 @@ function Home({unauthorized, user}) {
   };
 
   async function createRecord({ reason }) {
+    setLoading(true)
     const data = {
       userId: user.id,
       emotions: selected,
@@ -32,6 +34,7 @@ function Home({unauthorized, user}) {
 
     setSelected([])
     selectorRef.current.close();
+    setLoading(false)
   }
 
   function openModal() {
@@ -46,7 +49,7 @@ function Home({unauthorized, user}) {
     <Layout alignY loading={unauthorized}>
       <EmotionsSelect selected={selected} onChange={handleSelect} onSubmit={openModal} ref={selectorRef} />
 
-      <ModalEditEmotion isOpen={openedModal} handleClose={closeModal} onSubmit={createRecord} />
+      <ModalEditEmotion isOpen={openedModal} handleClose={closeModal} onSubmit={createRecord} loading={loading} />
     </Layout>
   );
 }
