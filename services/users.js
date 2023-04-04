@@ -1,6 +1,14 @@
 import prisma from 'prisma/client';
 import bcrypt from 'bcrypt';
 
+export async function get(name) {
+  const user = await prisma.user.findUnique({
+    where: { name },
+  });
+
+  return user;
+}
+
 export async function getByName(name) {
   const user = await prisma.user.findUnique({
     where: { name },

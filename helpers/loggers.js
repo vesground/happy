@@ -3,3 +3,7 @@ export function logReq({method, path}) {
     const message = `${new Date().toLocaleString("en-US", options)} - ${method} ${path}`;
     console.log(message)
 }
+
+export function logError(msg) {
+    console.log("Error: ", msg)
+}

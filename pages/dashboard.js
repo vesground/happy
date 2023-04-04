@@ -52,7 +52,7 @@ function Dashboard({ user }) {
       body: JSON.stringify(body),
     });
     const updatedRecord = await response.json();
-    const newData = insertUpdatedRecord(data, updatedRecord);
+    const newData = insertUpdatedRecord(data, updatedRecord.data);
     await mutate(newData);
 
     setLoading(false);

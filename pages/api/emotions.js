@@ -1,5 +1,6 @@
 import { list } from 'services/emotions';
 import { logReq } from 'helpers/loggers';
+import { handleResponse, handleError } from 'helpers/response';
 
 export default async function handler(req, res) {
   const { method, query, url } = req;
@@ -9,9 +10,12 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      response = await list(query);
+      try {
+        response = await list({ userId: query.userId }, { groupBy: !!query.groupBy });
+        handleResponse(res, response)
+      } catch (error) {
+        handleError(res, error)
+      }
       break;
   }
-
-  res.status(200).json(response);
 }

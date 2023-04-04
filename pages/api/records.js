@@ -1,5 +1,6 @@
 import { list, create, edit } from 'services/records';
 import { logReq } from 'helpers/loggers';
+import { handleResponse, handleError } from 'helpers/response';
 
 export default async function handler(req, res) {
   const { method, query, body: stringifiedBody, url } = req;
@@ -9,17 +10,32 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      response = await list({ userId: query.userId }, { groupBy: !!query.groupBy });
+      try {
+        response = await list({ userId: query.userId }, { groupBy: !!query.groupBy });
+        handleResponse(res, response)
+      } catch (error) {
+        handleError(res, error)
+      }
       break;
     case 'POST':
       const postBody = JSON.parse(stringifiedBody);
-      response = await create({ userId: postBody.userId, emotionsIds: postBody.emotions, reason: postBody.reason });
+      
+      try {
+        response = await create({ userId: postBody.userId, emotionsIds: postBody.emotions, reason: postBody.reason });
+        handleResponse(res, response)
+      } catch (error) {
+        handleError(res, error)
+      }
       break;
     case 'PUT':
       const putBody = JSON.parse(stringifiedBody);
-      response = await edit({ id: putBody.id, emotionsIds: putBody.emotions, reason: putBody.reason });
+
+      try {
+        response = await edit({ id: putBody.id, emotionsIds: putBody.emotions, reason: putBody.reason });
+        handleResponse(res, response)
+      } catch (error) {
+        handleError(res, error)
+      }
       break;
   }
-
-  res.status(200).json(response);
 }
