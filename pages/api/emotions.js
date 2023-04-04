@@ -1,8 +1,11 @@
 import { list } from 'services/emotions';
+import { logReq } from 'helpers/loggers';
 
 export default async function handler(req, res) {
-  const { method, query } = req;
+  const { method, query, url } = req;
   let response;
+
+  logReq({method, path: url})
 
   switch (method) {
     case 'GET':

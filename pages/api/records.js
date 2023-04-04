@@ -1,8 +1,11 @@
 import { list, create, edit } from 'services/records';
+import { logReq } from 'helpers/loggers';
 
 export default async function handler(req, res) {
-  const { method, query, body: stringifiedBody } = req;
+  const { method, query, body: stringifiedBody, url } = req;
   let response;
+
+  logReq({method, path: url})
 
   switch (method) {
     case 'GET':
