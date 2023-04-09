@@ -2,7 +2,7 @@ import { useState, useImperativeHandle, forwardRef } from 'react';
 import useSWR from 'swr';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
-import { fetcher } from 'utils';
+import { fetcher } from 'utils/swr';
 import Button from 'components/select/Button';
 import Loader from 'components/Loader';
 

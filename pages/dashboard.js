@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import dayjs from 'dayjs';
-import { fetcher } from 'utils';
+import { fetcher } from 'utils/swr';
 import { pickBy, identity } from 'lodash';
 import utc from 'dayjs/plugin/utc'
 
