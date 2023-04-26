@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 export default function withAuthentication(WrappedComponent) {
   return function Component() {
@@ -12,7 +12,7 @@ export default function withAuthentication(WrappedComponent) {
         router.replace({
           pathname: '/auth/signin',
           query: { redirectUrl: `${process.env.NEXT_PUBLIC_HOST}${router.asPath}` },
-        })
+        });
       }
     }, [status]);
 

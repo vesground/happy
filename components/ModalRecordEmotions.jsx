@@ -30,12 +30,14 @@ export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, rec
   return (
     <ReactModal isOpen={isOpen} contentLabel="Edit emotion">
       <EmotionsSelect selected={selected} onChange={handleSelect} />
-        <div className={cn(styles.buttonGroup, styles.buttonGroupBottomRight)}>
-          <Button type="button" onClick={handleClose} disabled={loading}>
-            close
-          </Button>
-          <Button type="submit" loading={loading} onClick={handleSubmit}>save</Button>
-        </div>
+      <div className={cn(styles.buttonGroup, styles.buttonGroupBottomRight)}>
+        <Button type="button" onClick={handleClose} disabled={loading}>
+          close
+        </Button>
+        <Button type="submit" loading={loading} onClick={handleSubmit}>
+          save
+        </Button>
+      </div>
     </ReactModal>
   );
 }

@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import dayjs from 'dayjs';
 import { fetcher } from 'utils/swr';
 import { pickBy, identity } from 'lodash';
-import utc from 'dayjs/plugin/utc'
+import utc from 'dayjs/plugin/utc';
 
 import Layout from 'components/Layout';
 import withAuthentication from 'components/withAuthentication';
@@ -14,7 +14,7 @@ import globalStyles from 'styles/global.module.scss';
 import styles from 'styles/Dashboard.module.scss';
 import Link from 'next/link';
 
-dayjs.extend(utc)
+dayjs.extend(utc);
 
 const MODAL_RECORD_EMOTIONS = 'MODAL_RECORD_EMOTIONS';
 const MODAL_RECORD_REASON = 'MODAL_RECORD_REASON';
@@ -59,24 +59,30 @@ function Dashboard({ user }) {
     closeModal();
   }
 
-  const recordsDates = Object.keys(data || {})
+  const recordsDates = Object.keys(data || {});
 
   return (
     <Layout loading={!data} contentToBottom>
-      {recordsDates?.length ? recordsDates.map((dayDate) => {
-        const records = data[dayDate];
-        return (
-          <>
-            <h3>{dayjs(dayDate).format('DD/MM')}</h3>
-            {records.map(({ id, emotions, reason }) => (
-              <div className={styles.record} key={id}>
-                <RecordEmotion id={id} emotions={emotions} dayDate={dayDate} openModal={openModal} />
-                <RecordReason id={id} reason={reason} dayDate={dayDate} openModal={openModal} />
-              </div>
-            ))}
-          </>
-        );
-      }): <p>Empty list. Go and add new records <Link href='/'>here</Link>.</p>}
+      {recordsDates?.length ? (
+        recordsDates.map((dayDate) => {
+          const records = data[dayDate];
+          return (
+            <>
+              <h3>{dayjs(dayDate).format('DD/MM')}</h3>
+              {records.map(({ id, emotions, reason }) => (
+                <div className={styles.record} key={id}>
+                  <RecordEmotion id={id} emotions={emotions} dayDate={dayDate} openModal={openModal} />
+                  <RecordReason id={id} reason={reason} dayDate={dayDate} openModal={openModal} />
+                </div>
+              ))}
+            </>
+          );
+        })
+      ) : (
+        <p>
+          Empty list. Go and add new records <Link href="/">here</Link>.
+        </p>
+      )}
 
       <ModalRecordEmotions
         isOpen={openedModal?.type === MODAL_RECORD_EMOTIONS}
@@ -135,7 +141,7 @@ function insertUpdatedRecord(data, updated) {
     const dayRecordIndex = newData[dayStartAt].findIndex((record) => record.id === updated.id);
     newData[dayStartAt][dayRecordIndex] = updated;
   } else {
-    alert(`Record with ${dayStartAt} date not found`)
+    alert(`Record with ${dayStartAt} date not found`);
   }
 
   return newData;

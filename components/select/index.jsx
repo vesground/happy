@@ -37,7 +37,7 @@ function EmotionsSelect({ selected, onChange, onSubmit }, ref) {
     filter = filterSecondaryEmotions(opened[0]);
   }
 
-  if (!data?.length) return <Loader className={styles.loaderAlignCenter}/>;
+  if (!data?.length) return <Loader className={styles.loaderAlignCenter} />;
 
   const emotions = data?.filter(filter) || [];
 

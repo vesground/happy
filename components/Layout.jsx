@@ -11,7 +11,7 @@ import styles from 'styles/Layout.module.scss';
 export default function Layout({ children, loading, alignY, alignX, noNavigation, contentToBottom }) {
   const router = useRouter();
   async function handleSingOutClick() {
-    signOut({redirect: false})
+    signOut({ redirect: false });
   }
 
   return (
@@ -31,14 +31,14 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
             <span className={cn(router.pathname === '/dashboard' && styles.opened)}>dashboard</span>
           </Link>
           <Link href="/auth/signin" shallow={true}>
-          <span className={styles.logout} onClick={handleSingOutClick}>
-            logout
-          </span>
+            <span className={styles.logout} onClick={handleSingOutClick}>
+              logout
+            </span>
           </Link>
         </div>
       )}
 
-      {(loading) ? (
+      {loading ? (
         <Loader className={styles.loader} />
       ) : (
         <main

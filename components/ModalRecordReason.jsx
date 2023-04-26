@@ -19,7 +19,9 @@ export default function ModalRecordReason({ isOpen, handleClose, onSubmit, reaso
           <Button type="button" onClick={handleClose} disabled={loading}>
             close
           </Button>
-          <Button type="submit" loading={loading}>save</Button>
+          <Button type="submit" loading={loading}>
+            save
+          </Button>
         </div>
       </form>
     </ReactModal>

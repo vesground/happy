@@ -11,4 +11,4 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
   );
 }
 
-export default withMobileSafariOnly(App)
+export default withMobileSafariOnly(App);

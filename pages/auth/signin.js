@@ -1,40 +1,66 @@
-import { useState } from "react";
-import { signIn } from "next-auth/react"
-import { useRouter } from 'next/router'
-import cn from "classnames";
-import { useForm } from "react-hook-form";
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import cn from 'classnames';
+import { useForm } from 'react-hook-form';
 
 import Layout from 'components/Layout';
 import Input from 'components/Input';
 
 import styles from 'styles/Signup.module.scss';
-import Button from "components/Button";
+import Button from 'components/Button';
 
 function Signin() {
-  const [authorizing, setAuthorizing] = useState(false)
-  const router = useRouter()
+  const [authorizing, setAuthorizing] = useState(false);
+  const router = useRouter();
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  async function onSubmit({name, password}) {
-    setAuthorizing(true)
-    await signIn('auth-provider', { username: name, password, redirect: false})
+  async function onSubmit({ name, password }) {
+    setAuthorizing(true);
+    await signIn('auth-provider', { username: name, password, redirect: false });
 
-    router.replace(router.query.redirectUrl || '/')
+    router.replace(router.query.redirectUrl || '/');
   }
 
   function handleSignupClick() {
-    router.replace('/auth/signup')
+    router.replace('/auth/signup');
   }
 
   return (
     <Layout alignY alignX noNavigation>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Input register={register} type="text" name="name" placeholder="name" required error={errors.name} autocapitalize='off' autocomplete='username' />
-        <Input register={register} type="text" name="password" placeholder="password" required error={errors.password} autocapitalize='off' autocomplete='password' />
-        <Button type="submit" loading={authorizing}>Login</Button>
+        <Input
+          register={register}
+          type="text"
+          name="name"
+          placeholder="name"
+          required
+          error={errors.name}
+          autocapitalize="off"
+          autocomplete="username"
+        />
+        <Input
+          register={register}
+          type="text"
+          name="password"
+          placeholder="password"
+          required
+          error={errors.password}
+          autocapitalize="off"
+          autocomplete="password"
+        />
+        <Button type="submit" loading={authorizing}>
+          Login
+        </Button>
 
-        <p>New here? <a onClick={handleSignupClick}>Sign up</a></p>
+        <p>
+          New here? <a onClick={handleSignupClick}>Sign up</a>
+        </p>
       </form>
     </Layout>
   );

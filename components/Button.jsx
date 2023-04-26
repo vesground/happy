@@ -13,4 +13,4 @@ export default function Button({ children, className, onClick, loading, disabled
       {children}
     </button>
   );
-  }
+}
