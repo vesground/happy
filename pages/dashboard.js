@@ -8,16 +8,17 @@ import utc from 'dayjs/plugin/utc';
 import Layout from 'lib/Layout';
 import withAuthentication from 'components/withAuthentication';
 import ModalEditEmotion from 'components/ModalRecordReason';
-import ModalRecordEmotions from 'components/ModalRecordEmotions';
+import ModalRecordEmotions from 'components/dashboard/ModalRecordEmotions';
+import RecordEmotion from 'components/dashboard/RecordEmotion';
+import RecordReason from 'components/dashboard/RecordReason';
 
-import globalStyles from 'styles/global.module.scss';
+import { MODAL_RECORD_EMOTIONS, MODAL_RECORD_REASON } from 'components/dashboard/consts';
+import { insertUpdatedRecord } from 'components/dashboard/helpers';
+
 import styles from 'styles/Dashboard.module.scss';
 import Link from 'next/link';
 
 dayjs.extend(utc);
-
-const MODAL_RECORD_EMOTIONS = 'MODAL_RECORD_EMOTIONS';
-const MODAL_RECORD_REASON = 'MODAL_RECORD_REASON';
 
 function Dashboard({ user }) {
   const [openedModal, setOpenedModal] = useState(null);
@@ -101,50 +102,6 @@ function Dashboard({ user }) {
       />
     </Layout>
   );
-}
-
-function RecordEmotion({ id, emotions, dayDate, openModal }) {
-  return (
-    <p
-      className={globalStyles.textRegular}
-      onClick={openModal({ id, emotions: emotions.map(mapEmotionsIds), dayDate }, MODAL_RECORD_EMOTIONS)}
-    >
-      {emotions.map((emotion, index) => (
-        <span key={index}>
-          {0 === index ? emotion.name : emotion.name.toLowerCase()}
-          {emotions.length - 1 === index ? '' : ', '}
-        </span>
-      ))}
-    </p>
-  );
-}
-
-function RecordReason({ id, reason, dayDate, openModal }) {
-  return (
-    <p className={globalStyles.textSmall} onClick={openModal({ id, reason, dayDate }, MODAL_RECORD_REASON)}>
-      {reason}
-    </p>
-  );
-}
-
-function mapEmotionsIds(emotion) {
-  return emotion.id;
-}
-
-function insertUpdatedRecord(data, updated) {
-  const newData = { ...data };
-
-  // const dayStartAt = dayjs(updated.createdAt).startOf('day');
-  const dayStartAt = dayjs.utc(updated.createdAt).utcOffset(0).startOf('day');
-
-  if (newData[dayStartAt]) {
-    const dayRecordIndex = newData[dayStartAt].findIndex((record) => record.id === updated.id);
-    newData[dayStartAt][dayRecordIndex] = updated;
-  } else {
-    alert(`Record with ${dayStartAt} date not found`);
-  }
-
-  return newData;
 }
 
 export default withAuthentication(Dashboard);
