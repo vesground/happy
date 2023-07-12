@@ -3,8 +3,8 @@ import useSWR from 'swr';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
 import { fetcher } from 'utils/swr';
-import Button from 'components/select/Button';
-import Loader from 'components/Loader';
+import Button from 'lib/select/Button';
+import Loader from 'lib/Loader';
 
 import styles from 'styles/select/index.module.scss';
 

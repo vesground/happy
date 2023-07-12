@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Layout from './Layout';
+import Layout from 'lib/Layout';
 
 export default function withMobileSafariOnly(WrappedComponent) {
   return function Component(props) {

@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 
-import Layout from 'components/Layout';
-import Input from 'components/Input';
-import Button from 'components/Button';
+import Layout from 'lib/Layout';
+import Input from 'lib/Input';
+import Button from 'lib/Button';
 import { Requests } from 'utils/request';
 
 import styles from 'styles/Signup.module.scss';

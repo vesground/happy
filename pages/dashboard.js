@@ -5,7 +5,7 @@ import { fetcher } from 'utils/swr';
 import { pickBy, identity } from 'lodash';
 import utc from 'dayjs/plugin/utc';
 
-import Layout from 'components/Layout';
+import Layout from 'lib/Layout';
 import withAuthentication from 'components/withAuthentication';
 import ModalEditEmotion from 'components/ModalRecordReason';
 import ModalRecordEmotions from 'components/ModalRecordEmotions';

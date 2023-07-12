@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 
-import Layout from 'components/Layout';
+import Layout from 'lib/Layout';
 import withAuthentication from 'components/withAuthentication';
 import ModalEditEmotion from 'components/ModalRecordReason';
-import EmotionsSelect from 'components/select';
+import EmotionsSelect from 'lib/select';
 
 function Home({ unauthorized, user }) {
   const [loading, setLoading] = useState(false);

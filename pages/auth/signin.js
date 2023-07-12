@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 
-import Layout from 'components/Layout';
-import Input from 'components/Input';
+import Layout from 'lib/Layout';
+import Input from 'lib/Input';
 
 import styles from 'styles/Signup.module.scss';
-import Button from 'components/Button';
+import Button from 'lib/Button';
 
 function Signin() {
   const [authorizing, setAuthorizing] = useState(false);

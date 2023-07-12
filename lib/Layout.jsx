@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-import Loader from 'components/Loader';
+import Loader from 'lib/Loader';
 
 import styles from 'styles/Layout.module.scss';
 

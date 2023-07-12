@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import cn from 'classnames';
 
-import EmotionsSelect from 'components/select';
+import EmotionsSelect from 'lib/select';
 
 import styles from 'styles/Modal.module.scss';
-import Button from 'components/Button';
+import Button from 'lib/Button';
 
 export default function ModalRecordEmotions({ isOpen, handleClose, onSubmit, record, loading }) {
   const [selected, setSelected] = useState([]);
