@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { fetcher } from 'utils/swr';
 import { pickBy, identity } from 'lodash';
 import utc from 'dayjs/plugin/utc';
+import { useRouter } from 'next/router';
 
 import Layout from 'lib/Layout';
 import withAuthentication from 'components/withAuthentication';
@@ -21,6 +22,8 @@ import Link from 'next/link';
 dayjs.extend(utc);
 
 function Dashboard({ user }) {
+  const router = useRouter();
+
   const [openedModal, setOpenedModal] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -60,6 +63,12 @@ function Dashboard({ user }) {
     closeModal();
   }
 
+  function navigateToRecordPage({ id }) {
+    return function () {
+      router.push(`/records/${id}`);
+    };
+  }
+
   const recordsDates = Object.keys(data || {});
 
   return (
@@ -70,12 +79,27 @@ function Dashboard({ user }) {
           return (
             <>
               <h3>{dayjs(dayDate).format('DD/MM')}</h3>
-              {records.map(({ id, emotions, reason }) => (
-                <div className={styles.record} key={id}>
-                  <RecordEmotion id={id} emotions={emotions} dayDate={dayDate} openModal={openModal} />
-                  <RecordReason id={id} reason={reason} dayDate={dayDate} openModal={openModal} />
-                </div>
-              ))}
+              {records.map(({ id, emotions, reason }) =>
+                process.env.NODE_ENV === 'production' ? (
+                  <Record
+                    key={id}
+                    id={id}
+                    emotions={emotions}
+                    reason={reason}
+                    dayDate={dayDate}
+                    openModal={openModal}
+                  />
+                ) : (
+                  <NewRecord
+                    key={id}
+                    id={id}
+                    emotions={emotions}
+                    reason={reason}
+                    dayDate={dayDate}
+                    navigateToRecordPage={navigateToRecordPage}
+                  />
+                ),
+              )}
             </>
           );
         })
@@ -101,6 +125,24 @@ function Dashboard({ user }) {
         loading={loading}
       />
     </Layout>
+  );
+}
+
+function Record({ id, emotions, reason, dayDate, openModal }) {
+  return (
+    <div className={styles.record} key={id}>
+      <RecordEmotion id={id} emotions={emotions} dayDate={dayDate} openModal={openModal} />
+      <RecordReason id={id} reason={reason} dayDate={dayDate} openModal={openModal} />
+    </div>
+  );
+}
+
+function NewRecord({ id, emotions, reason, dayDate, navigateToRecordPage }) {
+  return (
+    <div className={styles.record} key={id}>
+      <RecordEmotion id={id} emotions={emotions} dayDate={dayDate} openModal={navigateToRecordPage} />
+      <RecordReason id={id} reason={reason} dayDate={dayDate} openModal={navigateToRecordPage} />
+    </div>
   );
 }
 
