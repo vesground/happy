@@ -22,7 +22,7 @@ function Record() {
   const [openedModal, setOpenedModal] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { data, error, mutate } = useSWR(
+  const { data: record, mutate } = useSWR(
     () => router.query.id && `${process.env.NEXT_PUBLIC_HOST}/api/records/${router.query.id}`,
     fetcher,
   );
@@ -46,21 +46,21 @@ function Record() {
       body: JSON.stringify(body),
     });
     const updatedRecord = await response.json();
-    const newData = insertUpdatedRecord(data, updatedRecord.data);
+    const newData = insertUpdatedRecord(record, updatedRecord.data);
     await mutate(newData);
 
     setLoading(false);
     closeModal();
   }
 
-  const record = data || {};
-
   return (
-    <Layout loading={!data} contentToBottom>
-      <div className={styles.record} key={record.id}>
-        <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} openModal={openModal} />
-        <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} openModal={openModal} />
-      </div>
+    <Layout loading={!record} contentToBottom>
+      {record && (
+        <div className={styles.record} key={record.id}>
+          <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} openModal={openModal} />
+          <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} openModal={openModal} />
+        </div>
+      )}
 
       <ModalRecordEmotions
         isOpen={openedModal?.type === MODAL_RECORD_EMOTIONS}

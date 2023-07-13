@@ -11,7 +11,11 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        response = await list({ userId: query.userId }, { groupBy: !!query.groupBy });
+        const exclude = query.exclude && !Array.isArray(query.exclude) ? Array.of(query.exclude) : query.exclude;
+        response = await list(
+          { userId: query.userId, emotions: query.emotions, exclude },
+          { groupBy: !!query.groupBy, sortBy: query.sortBy, order: query.order },
+        );
         handleResponse(res, response);
       } catch (error) {
         handleError(res, error);

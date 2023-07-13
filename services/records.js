@@ -1,5 +1,5 @@
 import prisma from 'prisma/client';
-import { groupBy as _groupBy } from 'lodash';
+import { groupBy as _groupBy, orderBy } from 'lodash';
 import dayjs from 'dayjs';
 
 export async function get({ id }) {
@@ -15,22 +15,19 @@ export async function get({ id }) {
   return record;
 }
 
-export async function list({ userId }, { groupBy }) {
+export async function list(filters, options = {}) {
+  const where = buildWhere(filters);
+  const orderBy = buildOrderBy(options);
+
   let records = await prisma.record.findMany({
-    where: {
-      userId: { equals: Number(userId) },
-    },
+    where,
     include: {
       emotions: true,
     },
-    orderBy: [
-      {
-        createdAt: 'desc',
-      },
-    ],
+    orderBy,
   });
 
-  if (groupBy) {
+  if (options.groupBy) {
     records = _groupBy(records, (record) => dayjs(record.createdAt).startOf('day'));
   }
 
@@ -71,4 +68,42 @@ export async function edit({ id }, { emotionsIds, reason }) {
   });
 
   return record;
+}
+
+function buildWhere({ userId, emotions = [], exclude = [] }) {
+  const query = {};
+
+  if (userId) {
+    query.userId = { equals: Number(userId) };
+  }
+
+  if (emotions.length) {
+    query.emotions = { some: { OR: emotions.map((id) => ({ id: Number(id) })) } };
+  }
+
+  if (exclude.length) {
+    query.NOT = { AND: exclude.map((id) => ({ id: Number(id) })) };
+  }
+
+  return query;
+}
+
+function buildOrderBy({ sortBy, order }) {
+  const orderBy = [];
+
+  if (sortBy === 'emotions') {
+    const orderRule = {
+      emotions: {
+        _count: order,
+      },
+    };
+    orderBy.push(orderRule);
+  } else if (sortBy) {
+    const orderRule = {
+      [sortBy]: order,
+    };
+    orderBy.push(orderRule);
+  }
+
+  return orderBy;
 }

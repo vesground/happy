@@ -28,7 +28,7 @@ function Dashboard({ user }) {
   const [loading, setLoading] = useState(false);
 
   const { data, error, mutate } = useSWR(
-    () => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=${user.id}&groupBy=day`,
+    () => `${process.env.NEXT_PUBLIC_HOST}/api/records?userId=${user.id}&groupBy=day&sortBy=createdAt&order=desc`,
     fetcher,
   );
 
