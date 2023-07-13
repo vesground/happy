@@ -17,5 +17,15 @@ export default async function handler(req, res) {
         handleError(res, error);
       }
       break;
+    case 'PUT':
+      const putBody = JSON.parse(stringifiedBody);
+
+      try {
+        response = await edit({ id: query.id }, { emotionsIds: putBody.emotions, reason: putBody.reason });
+        handleResponse(res, response);
+      } catch (error) {
+        handleError(res, error);
+      }
+      break;
   }
 }

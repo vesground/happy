@@ -44,14 +44,9 @@ function Dashboard({ user }) {
 
   async function editRecord(newRecord) {
     setLoading(true);
-    const cleanedRecord = pickBy(newRecord, identity);
+    const body = pickBy(newRecord, identity);
 
-    const body = {
-      id: openedModal.record.id,
-      ...cleanedRecord,
-    };
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/records`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/records/${openedModal.record.id}`, {
       method: 'PUT',
       body: JSON.stringify(body),
     });

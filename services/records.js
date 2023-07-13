@@ -49,7 +49,7 @@ export async function create({ userId, emotionsIds, reason }) {
   return record;
 }
 
-export async function edit({ id, emotionsIds, reason }) {
+export async function edit({ id }, { emotionsIds, reason }) {
   const data = {};
 
   if (emotionsIds) {
@@ -62,7 +62,7 @@ export async function edit({ id, emotionsIds, reason }) {
 
   const record = await prisma.record.update({
     where: {
-      id,
+      id: Number(id),
     },
     data,
     include: {
