@@ -1,5 +1,5 @@
-import { MODAL_RECORD_EMOTIONS } from './consts';
-import { mapEmotionsIds } from 'components/dashboard/helpers';
+import { MODAL_RECORD_EMOTIONS } from '../utils/consts';
+import { mapEmotionsIds } from 'utils/helpers';
 
 import globalStyles from 'styles/global.module.scss';
 

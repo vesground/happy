@@ -1,4 +1,4 @@
-import { MODAL_RECORD_REASON } from './consts';
+import { MODAL_RECORD_REASON } from 'utils/consts';
 
 import globalStyles from 'styles/global.module.scss';
 

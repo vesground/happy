@@ -9,12 +9,12 @@ import { useRouter } from 'next/router';
 import Layout from 'lib/Layout';
 import withAuthentication from 'components/withAuthentication';
 import ModalEditEmotion from 'components/ModalRecordReason';
-import ModalRecordEmotions from 'components/dashboard/ModalRecordEmotions';
-import RecordEmotion from 'components/dashboard/RecordEmotion';
-import RecordReason from 'components/dashboard/RecordReason';
+import ModalRecordEmotions from 'components/ModalRecordEmotions';
+import RecordEmotion from 'components/RecordEmotion';
+import RecordReason from 'components/RecordReason';
 
-import { MODAL_RECORD_EMOTIONS, MODAL_RECORD_REASON } from 'components/dashboard/consts';
-import { insertUpdatedRecord } from 'components/dashboard/helpers';
+import { MODAL_RECORD_EMOTIONS, MODAL_RECORD_REASON } from 'utils/consts';
+import { insertUpdatedRecord } from 'utils/helpers';
 
 import styles from 'styles/Dashboard.module.scss';
 import Link from 'next/link';
