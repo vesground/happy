@@ -2,6 +2,19 @@ import prisma from 'prisma/client';
 import { groupBy as _groupBy } from 'lodash';
 import dayjs from 'dayjs';
 
+export async function get({ id }) {
+  const record = await prisma.record.findUnique({
+    where: {
+      id: Number(id),
+    },
+    include: {
+      emotions: true,
+    },
+  });
+
+  return record;
+}
+
 export async function list({ userId }, { groupBy }) {
   let records = await prisma.record.findMany({
     where: {
