@@ -27,6 +27,21 @@ function Record() {
     fetcher,
   );
 
+  const { data: records } = useSWR(() => {
+    if (!record) return null;
+
+    const query = record.emotions.map((emotion) => ['emotions', emotion.id]);
+    const exclude = ['exclude', record.id];
+    const sortQuery = {
+      sortBy: 'createdAt',
+      order: 'asc',
+    };
+
+    const params = new URLSearchParams([...query, exclude, ...Object.entries(sortQuery)]).toString();
+
+    return `${process.env.NEXT_PUBLIC_HOST}/api/records?${params}`;
+  }, fetcher);
+
   function openModal(record, type) {
     return function () {
       setOpenedModal({ record, type });
@@ -61,6 +76,16 @@ function Record() {
           <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} openModal={openModal} />
         </div>
       )}
+
+      <h3>Take a look when you have felt the same emotions before:</h3>
+
+      {records?.length &&
+        records.map((record) => (
+          <div className={styles.record} key={record.id}>
+            <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} openModal={() => () => {}} />
+            <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} openModal={() => () => {}} />
+          </div>
+        ))}
 
       <ModalRecordEmotions
         isOpen={openedModal?.type === MODAL_RECORD_EMOTIONS}
