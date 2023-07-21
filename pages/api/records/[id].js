@@ -1,4 +1,4 @@
-import { get, edit } from 'services/records';
+import { get, edit, remove } from 'services/records';
 import { logReq } from 'helpers/loggers';
 import { handleResponse, handleError } from 'helpers/response';
 
@@ -22,6 +22,14 @@ export default async function handler(req, res) {
 
       try {
         response = await edit({ id: query.id }, { emotionsIds: putBody.emotions, reason: putBody.reason });
+        handleResponse(res, response);
+      } catch (error) {
+        handleError(res, error);
+      }
+      break;
+    case 'DELETE':
+      try {
+        response = await remove({ id: query.id });
         handleResponse(res, response);
       } catch (error) {
         handleError(res, error);

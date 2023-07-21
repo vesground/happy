@@ -72,6 +72,17 @@ function Record() {
     setOpenedModal({ record: data, type: MODAL_RECORD_REASON });
   }
 
+  async function deleteRecord() {
+    setLoading(true);
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/records/${record.id}`, {
+      method: 'DELETE',
+    });
+
+    setLoading(false);
+    closeModal();
+    router.push('/dashboard');
+  }
+
   async function editRecord(newRecord) {
     setLoading(true);
     const body = pickBy(newRecord, identity);
@@ -129,6 +140,9 @@ function Record() {
         </Item>
         <Item id="reason" onClick={editReason}>
           Edit reason
+        </Item>
+        <Item id="delete" onClick={deleteRecord}>
+          Delete
         </Item>
       </Menu>
     </Layout>

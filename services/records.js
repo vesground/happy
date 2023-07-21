@@ -70,6 +70,19 @@ export async function edit({ id }, { emotionsIds, reason }) {
   return record;
 }
 
+export async function remove({ id }) {
+  const record = await prisma.record.delete({
+    where: {
+      id: Number(id),
+    },
+    include: {
+      emotions: true,
+    },
+  });
+
+  return record;
+}
+
 function buildWhere({ userId, emotions = [], exclude = [] }) {
   const query = {};
 
