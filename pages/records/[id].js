@@ -99,6 +99,12 @@ function Record() {
     closeModal();
   }
 
+  function navigateToRecordPage({ id }) {
+    return function () {
+      router.replace(`/records/${id}`);
+    };
+  }
+
   return (
     <Layout loading={!record} contentToBottom>
       {record && (
@@ -112,7 +118,7 @@ function Record() {
 
       {records?.length &&
         records.map((record) => (
-          <div className={styles.record} key={record.id}>
+          <div className={styles.record} key={record.id} onClick={navigateToRecordPage({ id: record.id })}>
             <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} />
             <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} />
           </div>
