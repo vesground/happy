@@ -4,6 +4,8 @@ import { mapEmotionsIds } from 'utils/helpers';
 import globalStyles from 'styles/global.module.scss';
 
 export default function RecordEmotion({ id, emotions, dayDate, openModal }) {
+  openModal = openModal || (() => () => console.log('openModal is not defined'));
+
   return (
     <p
       className={globalStyles.textRegular}

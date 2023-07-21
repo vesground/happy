@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import { fetcher } from 'utils/swr';
 import { pickBy, identity } from 'lodash';
 import { useRouter } from 'next/router';
+import { Menu, Item, useContextMenu } from 'react-contexify';
 
 import Layout from 'lib/Layout';
 import withAuthentication from 'components/withAuthentication';
@@ -12,12 +13,18 @@ import RecordEmotion from 'components/RecordEmotion';
 import RecordReason from 'components/RecordReason';
 
 import { MODAL_RECORD_EMOTIONS, MODAL_RECORD_REASON } from 'utils/consts';
-import { insertUpdatedRecord } from 'utils/helpers';
+import { insertUpdatedRecord, mapEmotionsIds } from 'utils/helpers';
 
+import 'react-contexify/ReactContexify.css';
 import styles from 'styles/Dashboard.module.scss';
+
+const MENU_ID = 'RECORD_ACTIONS_MENU';
 
 function Record() {
   const router = useRouter();
+  const { show } = useContextMenu({
+    id: MENU_ID,
+  });
 
   const [openedModal, setOpenedModal] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -42,14 +49,27 @@ function Record() {
     return `${process.env.NEXT_PUBLIC_HOST}/api/records?${params}`;
   }, fetcher);
 
-  function openModal(record, type) {
-    return function () {
-      setOpenedModal({ record, type });
-    };
-  }
-
   function closeModal() {
     setOpenedModal(null);
+  }
+
+  function handleContextMenu(event) {
+    show({
+      event,
+      props: {
+        key: 'value',
+      },
+    });
+  }
+
+  function editEmotions() {
+    const data = { id: record.id, emotions: record.emotions.map(mapEmotionsIds), dayDate: record.createdAt };
+    setOpenedModal({ record: data, type: MODAL_RECORD_EMOTIONS });
+  }
+
+  function editReason() {
+    const data = { id: record.id, reason: record.reason, dayDate: record.createdAt };
+    setOpenedModal({ record: data, type: MODAL_RECORD_REASON });
   }
 
   async function editRecord(newRecord) {
@@ -71,9 +91,9 @@ function Record() {
   return (
     <Layout loading={!record} contentToBottom>
       {record && (
-        <div className={styles.record} key={record.id}>
-          <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} openModal={openModal} />
-          <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} openModal={openModal} />
+        <div className={styles.record} key={record.id} onClick={handleContextMenu}>
+          <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} />
+          <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} />
         </div>
       )}
 
@@ -82,8 +102,8 @@ function Record() {
       {records?.length &&
         records.map((record) => (
           <div className={styles.record} key={record.id}>
-            <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} openModal={() => () => {}} />
-            <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} openModal={() => () => {}} />
+            <RecordEmotion id={record.id} emotions={record.emotions} dayDate={new Date()} />
+            <RecordReason id={record.id} reason={record.reason} dayDate={new Date()} />
           </div>
         ))}
 
@@ -102,6 +122,15 @@ function Record() {
         reason={openedModal?.record.reason}
         loading={loading}
       />
+
+      <Menu id={MENU_ID}>
+        <Item id="emotions" onClick={editEmotions}>
+          Edit emotions
+        </Item>
+        <Item id="reason" onClick={editReason}>
+          Edit reason
+        </Item>
+      </Menu>
     </Layout>
   );
 }
