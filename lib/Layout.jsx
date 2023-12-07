@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import cn from 'classnames';
-import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import Loader from 'lib/Loader';
@@ -10,9 +9,6 @@ import styles from 'styles/Layout.module.scss';
 
 export default function Layout({ children, loading, alignY, alignX, noNavigation, contentToBottom }) {
   const router = useRouter();
-  async function handleSingOutClick() {
-    signOut({ redirect: false });
-  }
 
   return (
     <div className={cn(styles.container, !contentToBottom && styles.bottomPadding)}>
@@ -30,10 +26,9 @@ export default function Layout({ children, loading, alignY, alignX, noNavigation
           <Link href="/dashboard">
             <span className={cn(router.pathname === '/dashboard' && styles.opened)}>dashboard</span>
           </Link>
-          <Link href="/auth/signin" shallow={true}>
-            <span className={styles.logout} onClick={handleSingOutClick}>
-              logout
-            </span>
+
+          <Link href="/profile" shallow={true}>
+            <span className={styles.logout}>profile</span>
           </Link>
         </div>
       )}
