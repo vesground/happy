@@ -2,6 +2,16 @@ import { list, create, edit } from 'services/records';
 import { logReq } from 'helpers/loggers';
 import { handleResponse, handleError } from 'helpers/response';
 
+function parseEmotionsQuery(emotions) {
+  if (emotions && Array.isArray(emotions)) {
+    return emotions;
+  } else if (emotions && typeof emotions === 'string') {
+    return [emotions];
+  }
+
+  return [];
+}
+
 export default async function handler(req, res) {
   const { method, query, body: stringifiedBody, url } = req;
   let response;
@@ -12,8 +22,10 @@ export default async function handler(req, res) {
     case 'GET':
       try {
         const exclude = query.exclude && !Array.isArray(query.exclude) ? Array.of(query.exclude) : query.exclude;
+        const emotions = parseEmotionsQuery(query.emotions);
+
         response = await list(
-          { userId: query.userId, emotions: query.emotions, exclude },
+          { userId: query.userId, emotions, exclude },
           { groupBy: !!query.groupBy, sortBy: query.sortBy, order: query.order },
         );
         handleResponse(res, response);
